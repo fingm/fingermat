@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Boton en Javascript</title>
+        <style>
+            .box {
+                color:red;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="box">
+            Texto Hola
+        </div>        
+        <button onclick="changeColor()">Blue</button>
+        <script>
+            function changeColor(){
+                document.querySelector('.box').style.color = 'blue';
+            }
+        </script>
+    </body>
+</html>

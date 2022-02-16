@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Practicando con DOM</title>
+    </head>
+    <body>
+        <h3>THE DOM</h3>
+        
+        <div>
+            <p>A very smart text here</p>
+            <p>Some more smart text</p>
+            <p class="error">ooops...error!</p>
+        </div>
+        	
+        <div class="error">this is a 2nd error</div>
+        <script src="dom.js"></script>
+
+        <div >
+            <p>Este es un texto con contenido</p>
+        </div>
+    </body>
+</html>
+
+
+<!-- 
+    1. Queremos seleccionar solo el primer parrafo:
+        .1) creamos una variable para guardar el elemento
+        .2) asignar un elemento del DOM a esa variable usando querySelector
+            1). Hay 3 formas de seleccionar un node con querySelector:
+                .etiqueta HTML <>
+                .clase CSS .
+                .ID de CSS #
+            2) sintaxis :
+                .const varName = document.querySelector ('HTML tag')
+                .const varName = documento.querySelector ('.CSS class')
+                .const varName = documento.querySelector ('#CSS ID')
+
+-->
