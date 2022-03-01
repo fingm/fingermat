@@ -1,8 +1,10 @@
+<?php
+    include("funciones.php");
+?>
 
 <!DOCTYPE html>
 <html>
     <head>
-        <title>COCECO</title>
       <link rel="stylesheet" href="estilos.css">
     </head>
     <body>

@@ -1,8 +1,8 @@
 <?php
+    include("funciones.php");
 
     if (isset($_POST['accion']) && $_POST['accion'] == "borrarTodo"){
-        @session_start();
-        @session_destroy();
+        borrarTodo();
     }    
 
     @session_start();
@@ -35,7 +35,7 @@
                 $posicion = count($_SESSION['tabla']);
                 $_SESSION['tabla'][$posicion] = array("fecha"=>$numFecha,"nombre"=>$txtNombre,"coche"=>$numCoche,"gasto"=>$numGasto,"pos"=>$numPos,"efectivo"=>$numEfectivo,"cuota"=>$numCuota);
         }
-    }
+    } 
 
     //-------Ingreso de datos de formulario de gastos-----------
 
@@ -93,6 +93,28 @@
          }  
         return $total;
     }
+
+ //--------------CARGA BASE DE DATOS-------------------
+
+    //----------BOLETAS--------------
+    if (isset($_POST['accion']) && $_POST['accion'] == "enviarTodoBoletas"){
+        $cont = 0;
+        while ( isset($arrayTabla) && $arrayTabla != "" && $arrayTabla[$cont]['fecha'] != "" ){
+            insertarBoletas($arrayTabla,$cont);
+            $cont ++;
+        }
+        borrarTodo();
+    }
+
+    //----------GASTOS--------------
+    if (isset($_POST['accion']) && $_POST['accion'] == "enviarTodoGastos"){
+        $cont = 0;
+        while (isset($arrayTablaGastos) && $arrayTablaGastos != "" && $arrayTablaGastos[$cont]['fecha2'] != "" ){
+            insertarGastos($arrayTablaGastos,$cont);
+            $cont ++;
+        }
+        borrarTodo();
+    }
 ?>
 
 <!DOCTYPE html>
@@ -123,6 +145,7 @@
             <ul class="itemsSection"> <a href="boletas.php">ingresar boletas</a></ul>
             <ul class="itemsSection">Quienes somos</ul>
         </div>
+        
         <div style="margin-top: 600px; margin-left: 100px;">
             <form action="boletas.php" method="POST">
                 <button type="submit" name= "borrarTodo">Borrar todo
@@ -161,7 +184,7 @@
                     </form>
                         <?php foreach($arrayTabla as $key => $datos){ ?> 
                             <tr>
-                                <td><?=$datos['fecha']."/03"?></td>
+                                <td><?=$datos['fecha']?></td>
                                 <td><?=$datos['nombre']?></td> 
                                 <td><?=$datos['coche']?></td> 
                                 <td><?=$datos['gasto']?></td> 
@@ -186,6 +209,13 @@
                                 <td class="result1"><?=sumar($arrayTabla,'pos')?></td> 
                                 <td class="result1"><?=sumar($arrayTabla,'efectivo')?></td>
                                 <td class="result1"><?=sumar($arrayTabla,'cuota')?></td> 
+                                <td>
+                                    <form action="boletas.php" method = "POST">
+                                        <button type="submit" name="enviarTodoBoletas" style="background-color :#f5c894;" >enviar Todo
+                                             <input type="hidden" name="accion" value="enviarTodoBoletas">
+                                        </button>        
+                                    </form>
+                                </td>
                             </tr>
                 </table>
             </div>
@@ -212,7 +242,7 @@
                         </form>
                             <?php foreach($arrayTablaGastos as $key => $datos){ ?> 
                                 <tr>
-                                    <td><?=$datos['fecha2']."/03"?></td>
+                                    <td><?=$datos['fecha2']?></td>
                                     <td><?=$datos['coche2']?></td> 
                                     <td><?=$datos['gasto2']?></td> 
                                     <td><?=$datos['detalle2']?></td> 
@@ -231,6 +261,13 @@
                                 <td></td>
                                 <td class="result1">Total $</td>
                                 <td class="result1"><?=sumar($arrayTablaGastos,'gasto2')?></td>
+                                <td>
+                                    <form action="boletas.php" method = "POST">
+                                        <button type="submit" name="enviarTodoGastos" style="background-color :#f5c894;" >enviar Todo
+                                             <input type="hidden" name="accion" value="enviarTodoGastos">
+                                        </button>        
+                                    </form>
+                                </td>
                             </tr>
                     </table>
 

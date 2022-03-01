@@ -23,7 +23,7 @@
 
     <?php
 
-    //----------------------------mostrar base de datos
+    //----------------------------mostrar base de datos--------
 
     $consulta = "SELECT * FROM personas";
                 $resultado = mysqli_query($conn,$consulta);
@@ -40,6 +40,7 @@
                         <td class="algo"><?php echo $nombre ?></td>
                         <td class="algo"><?php echo $apellido ?></td>
                         <td class="algo"><?php echo $documento ?></td>
+                        <td><input ></td>
                     </tr>
                 </table>
             </div>   

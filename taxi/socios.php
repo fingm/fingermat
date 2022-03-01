@@ -1,3 +1,26 @@
+<?php
+   include("funciones.php");
+   if (isset($_POST['accion']) && $_POST['accion'] == 'ingresar'){
+        if (!empty($_POST['socio_nombre']) && !empty($_POST['socio_apellido']) && !empty($_POST['socio_email']) && !empty($_POST['socio_telefono']) && !empty($_POST['socio_fdeingreso']) && !empty($_POST['socio_legajo'])){
+            $conn = conectar();
+            $nombre_socio = $_POST['socio_nombre'];
+            $apellido_socio = $_POST['socio_apellido'];
+            $email_socio = $_POST['socio_email'];
+            $telefono_socio = $_POST['socio_telefono'];
+            $fdeingreso_socio = $_POST['socio_fdeingreso'];
+            $legajo_socio = $_POST['socio_legajo'];   
+            $sql = "INSERT INTO socios (nombre, apellido, email, telefono, fdeingreso, legajo) VALUES ('$nombre_socio','$apellido_socio','$email_socio','$telefono_socio','$fdeingreso_socio','$legajo_socio')";
+                        //verificr si la inserción fue exitosa
+                        if (mysqli_query($conn, $sql)) {
+                           //   echo "Insertado Satisfactoriamente"."<br/>"."<br/>";
+                          }else {
+                              echo "Error al insertar: " . $sql . "<br>" . mysqli_error($conn);
+                          }
+                          $conn = desconectar();
+            $conn = desconectar(); 
+        }
+    }
+?>
 
 <!DOCTYPE html>
 <html>
@@ -20,119 +43,71 @@
             </div>
         </div>
     </header>
-    <section class="divsections">
+    <section >
         <div>
-            <ul class="itemsSection"> <a href="index.php">inicio</a></ul>
-            <ul class="itemsSection"> <a href="socios.php">Socios</a></ul>
-            <ul class="itemsSection"> <a href="boletas.php">ingresar boletas</a></ul>
-            <ul class="itemsSection">Quienes somos</ul>
+        <ul class="itemsSection"> <a href="index.php">inicio</a></ul>
+            <ul class="itemsSection"><a href="socios.php">Socios</a></ul>
+            <ul class="itemsSection"> <a href="ingresoDeGastos.php">ingresar Gastos</a></ul>
+            <ul class="itemsSection"><a href="ingresoDeCuotas.php">Ingresar Cuotas</a></ul>
+            <ul class="itemsSection"> <a href="ingresos.php">Entradas / Salidas</a></ul>
+            <ul class="itemsSection"> <a href="salidas.php">Entradas / Salidas</a></ul>
         </div>
     </section>
     <aside>
-<!--------------tabla de ingreso de datos BOLETAS--------------------->        
         <div>
-            <table style="margin-left:200px">
-                <h2><center>HORARIOS</center></h2>
+            <h3><center>INGRESAR SOCIO</center></h3>
+            <table class="tablaSocios">
                 <tr>
-                    <th class="tablaSocios">#</th>
-                    <th class="tablaSocios">#</th>
-                    <th class="tablaSocios">Lunes</th>
-                    <th class="tablaSocios">Martes</th>
-                    <th class="tablaSocios">Miercoles</th>
-                    <th class="tablaSocios">Jueves</th>
-                    <th class="tablaSocios">Viernes</th>
-                    <th class="tablaSocios">Sabado</th>
-                    <th class="tablaSocios">Domingo</th>
+                    <th class = "celdasSocios">Nombre</th>
+                    <th class = "celdasSocios">Apellido</th>
+                    <th class = "celdasSocios">Email</th>
+                    <th class = "celdasSocios">Telefono</th>
+                    <th class = "celdasSocios">F. de Ingreso</th>
+                    <th class = "celdasSocios">Legajo</th>
+                    <th class = "celdasSocios">#</th>
                 </tr>
                 <tr>
-                    <th class="tablaSocios" >4091</th>
-                    <td class="tablaSocios">dia</td>
-                    <td class="tablaSocios"><input type="text" size="6" maxlength="10" value="" name="nombre"></td>
-                    <td class="tablaSocios">---------</td>
-                    <td class="tablaSocios">Cristian</td>
-                    <td class="tablaSocios">Cristian</td>
-                    <td class="tablaSocios">Cristian</td>
-                    <td class="tablaSocios">Cristian</td>
-                    <td class="tablaSocios">Cristian</td>
-                </tr>
-                <tr>
-                    <th class="tablaSocios">4091</th>
-                    <td class="tablaSocios">noche</td>
-                    <td class="tablaSocios">Matias</td>
-                    <td class="tablaSocios">Matias</td>
-                    <td class="tablaSocios">Matias</td>
-                    <td class="tablaSocios">Matias</td>
-                    <td class="tablaSocios">Matias</td>
-                    <td class="tablaSocios">--------</td>
-                    <td class="tablaSocios">--------</td>
-                </tr>
-                <tr>
-                    <th class="tablaSocios">1092</th>
-                    <td class="tablaSocios">dia</td>
-                    <td class="tablaSocios">Cristian</td>
-                    <td class="tablaSocios">---------</td>
-                    <td class="tablaSocios">Cristian</td>
-                    <td class="tablaSocios">Cristian</td>
-                    <td class="tablaSocios">Cristian</td>
-                    <td class="tablaSocios">Cristian</td>
-                    <td class="tablaSocios">Cristian</td>
-                </tr>
-                <tr>
-                    <th class="tablaSocios">1092</th>
-                    <td class="tablaSocios">noche</td>
-                    <td class="tablaSocios">Matias</td>
-                    <td class="tablaSocios">Matias</td>
-                    <td class="tablaSocios">Matias</td>
-                    <td class="tablaSocios">Matias</td>
-                    <td class="tablaSocios">Matias</td>
-                    <td class="tablaSocios">--------</td>
-                    <td class="tablaSocios">--------</td>
-                </tr>
-                <tr>
-                    <th class="tablaSocios">1093</th>
-                    <td class="tablaSocios">dia</td>
-                    <td class="tablaSocios">Cristian</td>
-                    <td class="tablaSocios">---------</td>
-                    <td class="tablaSocios">Cristian</td>
-                    <td class="tablaSocios">Cristian</td>
-                    <td class="tablaSocios">Cristian</td>
-                    <td class="tablaSocios">Cristian</td>
-                    <td class="tablaSocios">Cristian</td>
-                </tr>
-                <tr>
-                    <th class="tablaSocios">1093</th>
-                    <td class="tablaSocios">noche</td>
-                    <td class="tablaSocios">Matias</td>
-                    <td class="tablaSocios">Matias</td>
-                    <td class="tablaSocios">Matias</td>
-                    <td class="tablaSocios">Matias</td>
-                    <td class="tablaSocios">Matias</td>
-                    <td class="tablaSocios">--------</td>
-                    <td class="tablaSocios">--------</td>
-                </tr>
-                <tr>
-                    <th class="tablaSocios">1094</th>
-                    <td class="tablaSocios">dia</td>
-                    <td class="tablaSocios">Cristian</td>
-                    <td class="tablaSocios">---------</td>
-                    <td class="tablaSocios">Cristian</td>
-                    <td class="tablaSocios">Cristian</td>
-                    <td class="tablaSocios">Cristian</td>
-                    <td class="tablaSocios">Cristian</td>
-                    <td class="tablaSocios">Cristian</td>
-                </tr>
-                <tr>
-                    <th class="tablaSocios">1094</th>
-                    <td class="tablaSocios">noche</td>
-                    <td class="tablaSocios">Matias</td>
-                    <td class="tablaSocios">Matias</td>
-                    <td class="tablaSocios">Matias</td>
-                    <td class="tablaSocios">Matias</td>
-                    <td class="tablaSocios">Matias</td>
-                    <td class="tablaSocios">--------</td>
-                    <td class="tablaSocios">--------</td>
+                    <form action="socios.php" method ="POST">
+                        <td>
+                            <input class="formularioSocios" type="text" name="socio_nombre">
+                        </td>
+                        <td>
+                            <input class="formularioSocios" type="text" name="socio_apellido">
+                        </td>
+                        <td>
+                            <input class="formularioSocios" type="text" name="socio_email">
+                        </td>
+                        <td>
+                            <input class="formularioSocios" type="number" name="socio_telefono">
+                        </td>
+                        <td>
+                            <input class="formularioSocios" type="text" name="socio_fdeingreso">
+                        </td>
+                        <td>
+                            <input class="formularioSocios" type="number" name="socio_legajo">
+                        </td>
+                        <td>
+                            <input style="width:60px;" type="submit" name="accion" value="ingresar">
+                        </td>
+                    </form>
                 </tr>
             </table>
+        </div>
+        <div>
+            <div>
+                <h3><center>SOCIOS</center></h3>
+                <table class="tablaSocios">
+                    <tr>
+                        <th class = "celdasSocios">Nombre</th>
+                        <th class = "celdasSocios">Apellido</th>
+                        <th class = "celdasSocios">Email</th>
+                        <th class = "celdasSocios">Telefono</th>
+                        <th class = "celdasSocios">F. de Ingreso</th>
+                        <th class = "celdasSocios">Legajo</th>
+                        <th class = "celdasSocios">#</th>
+                    </tr>
+                </table>    
+            </div>    
         </div>
     </aside>
     <footer>

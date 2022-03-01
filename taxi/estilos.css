@@ -66,3 +66,43 @@ aside {
     background-color: #f1e3d3;
 }
 
+.tablaIngresosGeneral {
+    border-collapse: collapse;
+}
+
+.tablaIngresos {
+    border: 1px solid black;
+    margin: 0%;
+    width: 90px;
+    border-collapse: collapse;
+}
+
+.tablaIngresos2 {
+    border: 1px solid black;
+    width: 50px;
+    border-collapse: collapse;
+}
+
+.divDoblesUno {
+    display: inline-table;
+}
+
+.tablaSocios {
+    background-color: #f1e3d3;
+    border-collapse: collapse;
+    width: 50%;
+    height: 60px;
+    margin-left: 24%;
+}
+
+.celdasSocios{
+    width: 300px;
+    border: 1px solid black;
+
+}
+
+.formularioSocios {
+    width: 100px;
+
+}
+

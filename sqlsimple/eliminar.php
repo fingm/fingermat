@@ -10,5 +10,4 @@
     } else {
         echo "Error al borrar: " . $conn->error;
     }
-
 ?>
