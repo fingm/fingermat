@@ -199,28 +199,36 @@ void recorrerArregloEnteros(int arreglo[],int cantCaracteres){
 bool ordenado(int arr[],int cantidad){
     int contador = 0;
     bool ordenauxiliar = true;
-    
     while((contador <= cantidad-1) && (ordenauxiliar)){
-        if (arr[contador] < arr[contador+1]){
-            contador++;
-        }else{
-            ordenauxiliar = false;
+        if (arr[contador] > arr[contador+1]){       
+            ordenauxiliar=false;
         }
+        contador++;
     }
     return ordenauxiliar;
 }
 
-void ordenarArreglo(int arr[]){
-
+void intercambiar(int arr[],int pos1,int pos2){
+    int aux   = arr[pos1];
+    arr[pos1] = arr[pos2];
+    arr[pos2] = aux; 
 }
 
+void ordenarArreglo(int arr[], int cantidad){
+    for (int i = 0; i<=cantidad-1; i++){
+        for (int j=0 ;j<=cantidad ;j++){
+            if(arr[j]< arr[i]){
+                intercambiar(arr,i,j);
+            }
+        }
+    }   
+}
 
 int main (){
-    int arr[10];
-    cargarArregloEnteros(arr,9);
-    if (ordenado(arr,10)){
-        printf("esta");
-    }
+    int arr[4];
+    cargarArregloEnteros(arr,4);
+    ordenarArreglo(arr,4);
+    recorrerArregloEnteros(arr,4);
 }
 
 
