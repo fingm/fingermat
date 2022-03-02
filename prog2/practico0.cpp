@@ -179,7 +179,7 @@ int main () {
     }
 }*/
 void cargarArregloEnteros(int arreglo[],int cantCaracteres){
-    printf("Ingrese los valores: ");
+    printf("Ingrese los valores: \n");
     int cont=0;
     int intaux;
     while(cont <= cantCaracteres){
@@ -188,8 +188,10 @@ void cargarArregloEnteros(int arreglo[],int cantCaracteres){
         cont++;
     }
 }
+
 void recorrerArregloEnteros(int arreglo[],int cantCaracteres){
     int cont = 0;
+    printf("Los valores ingresados son : ");
     while(cont <= cantCaracteres){
         printf("%d",arreglo[cont]);
         cont++;
@@ -215,13 +217,15 @@ void intercambiar(int arr[],int pos1,int pos2){
 }
 
 void ordenarArreglo(int arr[], int cantidad){
-    for (int i = 0; i<=cantidad-1; i++){
-        for (int j=0 ;j<=cantidad ;j++){
-            if(arr[j]< arr[i]){
-                intercambiar(arr,i,j);
+    while (!ordenado(arr,cantidad)){
+        int cont = 0;
+        while(cont <= cantidad-1){
+            if (arr[cont] > arr[cont+1]){
+                intercambiar(arr,cont,cont+1);
             }
+            cont++;
         }
-    }   
+    }
 }
 
 int main (){
@@ -229,6 +233,9 @@ int main (){
     cargarArregloEnteros(arr,4);
     ordenarArreglo(arr,4);
     recorrerArregloEnteros(arr,4);
+    if (ordenado(arr,4)){
+        printf("...ESTÄ ORDENADO...");
+    }
 }
 
 
