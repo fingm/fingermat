@@ -26,9 +26,19 @@ if (isset($_SESSION['logeado']) && !$_SESSION['logeado']){
     <div class="nav-wrapper">
       <ul id="nav-mobile" class="left hide-on-med-and-down">
         <li><a href="alquileres.php">alquileres</a></li>
+        <?PHP  
+          if ($_SESSION['nivel'] == 'administrador'){
+        ?>
         <li><a href="clientes.php">clientes</a></li>
         <li><a href="vehiculos.php">vehiculos</a></li>
         <li><a href="usuarios.php">usuarios</a></li>
+        <?php } ?>  
+        <?PHP  
+          if ($_SESSION['nivel'] == 'encargado'){
+        ?>
+        <li><a href="clientes.php">clientes</a></li>
+        <li><a href="vehiculos.php">vehiculos</a></li>
+        <?php } ?>     
       </ul>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
         <li style="width:40px;"><i class="Large material-icons">account_circle</i></li>
@@ -50,23 +60,6 @@ if (isset($_SESSION['logeado']) && !$_SESSION['logeado']){
     <h3><center>ESTAMOS EN ALQUILERES</center></h3>
   </div>
   
-  <!----------------- FOOTER---------------------->
-
-  <div class="container" style="height: 265px;">
-
-  </div>
-
-  <footer class="page-footer green">
-    <div class="container">
-      <div class="row">
-        <div class="col l6 s12">
-          <h5 class="white-text">Company Bio</h5>
-          <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
-        </div>
-      </div>
-    </div>
-  </footer>
-
   <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="../js/materialize.js"></script>

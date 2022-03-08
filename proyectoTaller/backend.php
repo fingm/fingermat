@@ -3,6 +3,9 @@
   if (isset($_SESSION['logeado']) && $_SESSION['logeado']){
     header ('Location: '.$_SESSION['url']);
   }
+  if (isset($_SESSION['usu']) && $_SESSION['usu'] || isset($_SESSION['estado']) && $_SESSION['estado']){ 
+    header("Refresh: 1; URL='backend.php'");
+  }
 ?>
 
 <!DOCTYPE html>
@@ -10,7 +13,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-  <title>Starter Template - Materialize</title>
+  <title>GESTION AUTOSUR</title>
 
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -22,15 +25,15 @@
   <!-----------------------NAV-------------------------------->
   <nav class="light-blue lighten-1" role="navigation">
     <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Logo</a>
-      <ul class="right hide-on-med-and-down">
-        <li><a href="#">Navbar Link</a></li>
-      </ul>
-
       <ul id="nav-mobile" class="side-nav">
-        <li><a href="#">Navbar Link</a></li>
+        <li><a href="#"></a></li>
+        
       </ul>
       <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
     </div>
+
+      
+
   </nav>
   
   <!----------------- SECCION DEL MEDIO---------------------->
@@ -70,27 +73,24 @@
                 </tr>
               </form>  
             </table>  
+            <div>
+              <?PHP if (isset($_SESSION['usu']) && $_SESSION['usu']){ 
+                            $cerrar = new generica();
+                            $cerrar->eliminarsesion();
+              ?>
+              <center  class="card-panel white-text  red darken-1"> <?php echo("EL USUARIO O CONTRASEÑA NO EXISTE");} ?></center>    
+              <?PHP if (isset($_SESSION['estado']) && $_SESSION['estado']){ 
+                            $cerrar = new generica();
+                            $cerrar->eliminarsesion();
+                            
+              ?>
+              <center  class="card-panel white-text  red darken-1"> <?php echo("EL USUARIO SE ENCUENTRA DESACTIVADO");} ?></center>    
+            </div>
         </div>
       </div>
     </div>
   </div>
   
-  <!----------------- FOOTER---------------------->
-
-  <div class="container" style="height: 265px;">
-
-  </div>
-
-  <footer class="page-footer green">
-    <div class="container">
-      <div class="row">
-        <div class="col l6 s12">
-          <h5 class="white-text">Company Bio</h5>
-          <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
-        </div>
-      </div>
-    </div>
-  </footer>
 
   <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>

@@ -2,25 +2,12 @@
 
 //------------------------CLASE GENERICA---------------------------
 class generica {
-    //----------ELIMINAR SESION-------------
-    public function accesLevel($entrada){
-        $aux;
-        if ($entrada == 'administrador'){
-            $aux= 1;
-        }else if ($entrada == 'encargado'){
-            $aux= 2;
-        }else if ($entrada == 'vendedor'){
-            $aux= 3;
-        }
-        return $aux;    
-    }
-    
-    function eliminarSesion (){
+    public function eliminarSesion (){
         @session_start();
         @session_destroy();
     }
-    //----------EJECUTAR INSTRUCCION-------------
-    function ejecutarInstruccion($consulta,$auxiliar){
+    //----------EJECUTAR INSTRUCCION CON DEVOLUCION-------------
+    public function ejecutarInstruccion($consulta,$auxiliar){
         $nueva = new conexion();
         $nueva->constructConection('localhost','root','Newton9.80','autosUrRentACar');
         $this->conexion= $nueva->conect();
@@ -28,11 +15,15 @@ class generica {
         //instancia
         $this->sqlPreparado = $this->conexion->prepare($consulta);
         //ejecucion
-        $this->sqlRespuesta = $this->sqlPreparado->execute($auxiliar);
+        if ($auxiliar == ""){
+            $this->sqlRespuesta = $this->sqlPreparado->execute();
+        }else{
+            $this->sqlRespuesta = $this->sqlPreparado->execute($auxiliar);
+        }
         return $this->sqlRespuesta;
     }
     //--------------------------OBTENER DATOS--------------------------
-    function obtenerDatos ($consulta){
+    public function obtenerDatos ($consulta){
         $nueva = new conexion();
         $nueva->constructConection('localhost','root','Newton9.80','autosUrRentACar');
         $this->conexion= $nueva->conect();
@@ -44,28 +35,57 @@ class generica {
         $this->resultado =$this->consulta->fetchAll(PDO::FETCH_OBJ);
         return $this->resultado;
     }
-
-    //------------ELIMINAR DE TABLAS------------
-    public function eliminarUsuario ($idUsuario,$tabla){
-        if ($tabla == 'vehiculos'){
-            $idusuarios = 'idvehiculos';
-        }else if ($tabla == 'usuarios'){
-            $idusuarios = 'idusuarios';            
-        }else if ($tabla == 'clientes'){
-            $idusuarios = 'idclientes';
-        }        
-        $this->sqlEliminarUsu = "DELETE FROM $tabla WHERE $idusuarios=$idUsuario";
-        $this->ejecutar = new generica();
-        $this->ejecutar->ejecutarInstruccion($this->sqlEliminarUsu,$s=array());
+    //--------------------------EJECUTAR INSTRUCCION--------------------------
+    public function ejecutarConsulta ($consulta){
+        $nueva = new conexion();
+        $nueva->constructConection('localhost','root','Newton9.80','autosUrRentACar');
+        $this->conexion= $nueva->conect();
+        
+        //instancia
+        $this->consulta = $this->conexion->prepare($consulta);
+        //ejecucion
+        $this->consulta->execute();
     }
-    
-    //------------VERIFICAR DATOS------------
-    public function datos ($tabla,$cond1,$cond2){
-        $this->resultado = "SELECT * FROM $tabla WHERE username = '$cond1' and passwords = '$cond2'";
+    //------------VERIFICAR DATOS LOGIN-----
+    public function datosFiltrados($tabla,$columna1,$cond1,$columna2,$cond2){
+        if ($cond1 == "" && $cond2 == ""){
+            $this->resultado = "SELECT * FROM $tabla ";
+        }else if ( $cond2 == ""){
+            $this->resultado = "SELECT * FROM $tabla WHERE $columna1 = '$cond1'";
+        }else{
+            $this->resultado = "SELECT * FROM $tabla WHERE $columna1 = '$cond1' and $columna2 = '$cond2'";
+        }
         return $this->resultado;
     }
+    //------------ELIMINAR DE TABLAS------------
+    public function eliminarDeTablas ($tabla,$campo,$idcampo){
+        $this->sqlEliminarDeTablas = "DELETE FROM $tabla WHERE $campo = $idcampo";
+        return $this->sqlEliminarDeTablas;
+    }
+    //------------MODIFICAR CAMPO------------
+    public function modificarCampo($tabla,$campo,$dato,$columnaid,$datoCampoid){
+        $this->consulta = "UPDATE $tabla SET $campo ='$dato' WHERE $columnaid = '$datoCampoid'";
+        return $this->consulta;
+    }
+    //------------MODIFICAR datos------------
+    public function modificarTabla($tabla,$columna,$datoColumna){
+        if ($tabla == 'usuarios'){
+           $arrayDatos= array("names"=>$_POST['dato_1'],"lastname"=>$_POST['dato_2'],"username"=>$_POST['dato_3'],"passwords"=>$_POST['dato_4'],"email"=>$_POST['dato_5'],"dtype"=>$_POST['dato_6'],"document"=>$_POST['dato_7'],"cond"=>$_POST['dato_8'],"acceslevel"=>$_POST['dato_9']);
+        }else if ($tabla == 'vehiculos'){
+            $arrayDatos= array("vtype"=>$_POST['dato_1'],"vmatricula"=>$_POST['dato_2'],"vbrand"=>$_POST['dato_3'],"vmodel"=>$_POST['dato_4'],"vcolor"=>$_POST['dato_5'],"vyear"=>$_POST['dato_6'],"vpassengers"=>$_POST['dato_7'],"vavailability"=>$_POST['dato_8'],"vreserved"=>$_POST['dato_9'],"vrequired"=>$_POST['dato_10'],"vreturn"=>$_POST['dato_11'],"vphoto"=>$_POST['dato_12'],"vcost"=>$_POST['dato_13']);
+         }else if ($tabla == 'clientes'){
+            $arrayDatos= array("names"=>$_POST['dato_1'],"lastname"=>$_POST['dato_2'],"username"=>$_POST['dato_3'],"passwords"=>$_POST['dato_4'],"addres"=>$_POST['dato_5'],"phone"=>$_POST['dato_6'],"email"=>$_POST['dato_7'],"dtype"=>$_POST['dato_8'],"document"=>$_POST['dato_9'],"cond"=>$_POST['dato_10']);
+         }
+         
+        foreach($arrayDatos as $key => $datos){
+            if (isset($key) && $datos != ""){ 
+                $this->sqlModificar = $this->modificarCampo($tabla,$key,$datos,$columna,$datoColumna);
+                $this->algo = new generica();
+                $this->algo->ejecutarConsulta($this->sqlModificar);
+            }    
+        }
+    }
 }
-
 //------------------------CLASE CONEXION---------------------------
 class conexion {
     private $servername;
@@ -84,36 +104,40 @@ class conexion {
     public function conect(){
         $this->con = new PDO("mysql:host=$this->servername;dbname=$this->database",$this->username,$this->password); 
         $this->con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        //echo ("Conexión realizada Satisfactoriamente");
         return $this->con;
     }
 }
-
 //----------------------CLASE VEHICULO------------------------------------
 class vehiculo  {
-    protected $vtype;
-    protected $vbrand;
-    protected $vmodel;
-    protected $vcolor;
-    protected $vyear;
-    protected $vpassengers;
-    protected $vavailability;
-    protected $vreturn;
-    protected $vphoto;
-    protected $vcost;
+    public $vtype;
+    public $vmatricula;
+    public $vbrand;
+    public $vmodel;
+    public $vcolor;
+    public $vyear;
+    public $vpassengers;
+    public $vavailability;
+    public $vreserved;
+    public $vrequired;
+    public $vreturn;
+    public $vphoto;
+    public $vcost;
   
-    private $sqlIngresarVehiculo;
-    private $arrayVehiculo;
-    private $ejecutar;
+    public $sqlIngresarVehiculo;
+    public $arrayVehiculo;
+    public $ejecutar;
 
-    public function constructVehiculo($cvtype,$cvbrand,$cvmodel,$cvcolor,$cvyear,$cvpassengers,$cvavailability,$cvreturn,$cvphoto,$cvcost){
+    public function constructVehiculo($cvtype,$cvmatricula,$cvbrand,$cvmodel,$cvcolor,$cvyear,$cvpassengers,$cvavailability,$cvreserved,$cvrequired,$cvreturn,$cvphoto,$cvcost){
         $this->vtype         = $cvtype;
+        $this->vmatricula    = $cvmatricula;
         $this->vbrand        = $cvbrand;
         $this->vmodel        = $cvmodel;
         $this->vcolor        = $cvcolor;
         $this->vyear         = $cvyear;
         $this->vpassengers   = $cvpassengers;
         $this->vavailability = $cvavailability;
+        $this->vreserved     = $cvreserved; 
+        $this->vrequired     = $cvrequired;
         $this->vreturn       = $cvreturn; 
         $this->vphoto        = $cvphoto;
         $this->vcost         = $cvcost;
@@ -122,34 +146,39 @@ class vehiculo  {
     public function insertarVehiculo() {
         $this->sqlIngresarVehiculo   = "INSERT INTO vehiculos SET
             vtype                    =  :vtype,
+            vmatricula               =  :vmatricula,
             vbrand                   =  :vbrand,
             vmodel                   =  :vmodel,
             vcolor                   =  :vcolor,
             vyear                    =  :vyear,
             vpassengers              =  :vpassengers,
             vavailability            =  :vavailability,
+            vreserved                =  :vreserved,   
+            vrequired                =  :vrequired,
             vreturn                  =  :vreturn,
             vphoto                   =  :vphoto,
             vcost                    =  :vcost;";
 
         $this->arrayVehiculo = array (
-            "vtype"         => $this->vtype,
-            "vbrand"        => $this->vbrand,
-            "vmodel"        => $this->vmodel,
-            "vcolor"        => $this->vcolor,
-            "vyear"         => $this->vyear,
-            "vpassengers"   => $this->vpassengers,
-            "vavailability" => $this->vavailability,
-            "vreturn"       => $this->vreturn,
-            "vphoto"        => $this->vphoto,
-            "vcost"         => $this->vcost
+            "vtype"           => $this->vtype,
+            "vmatricula"      => $this->vmatricula,
+            "vbrand"          => $this->vbrand,
+            "vmodel"          => $this->vmodel,
+            "vcolor"          => $this->vcolor,
+            "vyear"           => $this->vyear,
+            "vpassengers"     => $this->vpassengers,
+            "vavailability"   => $this->vavailability,
+            "vreserved"       => $this->vreserved,
+            "vrequired"       => $this->vrequired,
+            "vreturn"         => $this->vreturn,
+            "vphoto"          => $this->vphoto,
+            "vcost"           => $this->vcost
         ); 
        
         $this->ejecutar = new generica();
         $this->ejecutar->ejecutarInstruccion($this->sqlIngresarVehiculo,$this->arrayVehiculo);
     }
 }
-
 //-------------------CLASE USUARIOS----------------------------
 class usuario {
     public $uName;
@@ -221,10 +250,10 @@ class cliente {
     public $cDocument;
     public $cCond;
 
-    private $sqlIngresarCliente;
-    private  $arrayCliente;
-    private $conexion;
-    private  $ejecutar;
+    public  $sqlIngresarCliente;
+    public  $arrayCliente;
+    public  $conexion;
+    public  $ejecutar;
 
     public function constructCliente($name,$lastname,$username,$password,$adres,$phone,$email,$dtype,$document,$cond){
         $this->cName       = $name;
@@ -278,24 +307,22 @@ if (isset($_POST['accion']) && $_POST['accion'] != ""){
         if(!empty($_POST['usernameForma']) && !empty($_POST['passwordForma'])){
             $username = $_POST['usernameForma'];
             $password = $_POST['passwordForma'];
-
             $login =  new generica();
-            $estado = $login->obtenerDatos($login->datos('usuarios',$username,$password));
-
+            $estado = $login->obtenerDatos($login->datosFiltrados('usuarios','username',$username,'passwords',$password));
+            @session_start();
             //----VERIFICO SI EXISTE EL USUARIO Y CONTRASEÑA
             if (empty($estado) ){
-                echo("El usuario o contraseña no son correctos");
-            } else{
-                @session_start();
-                $_SESSION['logeado']=true;
-                $_SESSION['url']= 'backend/php/alquileres.php';
-
-                //----MANTENGO LOS DATOS MIENTRAS SE TIENE ABIERTA LE SESION            
-                $_SESSION['username']   = $_POST['usernameForma'];
-                $_SESSION['password']   = $_POST['passwordForma'];   
-                $_SESSION['acceslevel'] = $estado[0]->acceslevel; 
-                $nivel = new generica;
-                $_SESSION['nivel']= $nivel->accesLevel($_SESSION['acceslevel']);
+                $_SESSION['usu'] = true;
+            $estado = $login->obtenerDatos($login->datosFiltrados('usuarios','username',$username,'passwords',$password));
+            } else if ($estado[0]->cond == activado){
+                $_SESSION['logeado'] = true;
+                $_SESSION['nivel']   = $estado[0]->acceslevel;
+                $_SESSION['url']     = 'backend/php/alquileres.php';
+                //-------MANTENGO LOS DATOS MIENTRAS SE TIENE ABIERTA LE SESION--------          
+                $_SESSION['username'] = $_POST['usernameForma'];
+                $_SESSION['password'] = $_POST['passwordForma'];   
+            }else{
+                $_SESSION['estado'] = true;
             }
         }
     }
@@ -305,27 +332,100 @@ if (isset($_POST['accion']) && $_POST['accion'] != ""){
         $sesion = new generica();
         $sesion->eliminarSesion();
     }
+    if ($_POST['accion'] == 'ingresarVehiculo'){//------INGRESAR NUEVO VEHICULO-------
+        if  (!empty($_POST['tipo']) && !empty($_POST['matricula']) && !empty($_POST['marca']) && !empty($_POST['modelo']) &&
+            !empty($_POST['color']) && !empty($_POST['año']) && !empty($_POST['pasajeros']) && !empty($_POST['disponible']) &&
+            !empty($_POST['reservado']) && !empty($_POST['foto']) && !empty($_POST['precio'])){
+
+            $tipo       = $_POST['tipo'];     
+            $matricula  = $_POST['matricula'];  
+            $marca      = $_POST['marca'];  
+            $modelo     = $_POST['modelo'];  
+            $color      = $_POST['color'];  
+            $año        = $_POST['año'];  
+            $pasajeros  = $_POST['pasajeros'];  
+            $disponible = $_POST['disponible'];  
+            $reservado  = $_POST['reservado'];  
+            $desde      = $_POST['desde'];  
+            $hasta      = $_POST['hasta'];  
+            $foto       = $_POST['foto'];  
+            $precio     = $_POST['precio'];             
+
+            $nuevoVehiculo = new vehiculo();    
+            $nuevoVehiculo->constructVehiculo($tipo,$matricula,$marca,$modelo,$color,$año,$pasajeros,$disponible,$reservado,$desde,$hasta,$foto,$precio);
+            $nuevoVehiculo->insertarVehiculo();
+
+        }else{
+            echo("Debe completar los campos obligatorios");
+        }
+    }
+    if ($_POST['accion'] == 'ingresarUsuario'){//------INGRESAR NUEVO USUARIO-------
+        if  (!empty($_POST['usu_nombre']) && !empty($_POST['usu_apellido']) && !empty($_POST['usu_usuario']) && !empty($_POST['usu_contraseña']) &&
+            !empty($_POST['usu_email']) && !empty($_POST['usu_tdoc']) && !empty($_POST['usu_documento']) && !empty($_POST['usu_estado']) && !empty($_POST['usu_nacceso']) ){
+            $usuNombre      = $_POST['usu_nombre'];
+            $usuApellido    = $_POST['usu_apellido'];
+            $usuUsuario     = $_POST['usu_usuario'];
+            $usuContraseña  = $_POST['usu_contraseña'];
+            $usuEmail       = $_POST['usu_email'];
+            $usuTdoc        = $_POST['usu_tdoc'];
+            $usuDocumento   = $_POST['usu_documento'];
+            $usuEstado      = $_POST['usu_estado'];
+            $usuNacceso     = $_POST['usu_nacceso'];    
+
+            $nuevoUsu = new usuario();    
+            $nuevoUsu->constructUsuario($usuNombre,$usuApellido,$usuUsuario,$usuContraseña,$usuEmail,$usuTdoc,$usuDocumento,$usuEstado,$usuNacceso);
+            $nuevoUsu->insertarUsuario();
+            unset ($nuevoUsu);
+        }else{
+            echo("Debe completar los campos CLIENTE");
+        }
+    }
+    if ($_POST['accion'] == 'ingresarCliente'){//------INGRESAR NUEVO USUARIO-------
+        if  (!empty($_POST['cl_nombre']) && !empty($_POST['cl_apellido']) && !empty($_POST['cl_usuario']) && !empty($_POST['cl_contraseña']) &&
+            !empty($_POST['cl_direccion']) && !empty($_POST['cl_telefono']) && !empty($_POST['cl_email']) && !empty($_POST['cl_tdoc']) &&
+            !empty($_POST['cl_documento']) && !empty($_POST['cl_estado'])){
+            $clNombre      = $_POST['cl_nombre'];
+            $clApellido    = $_POST['cl_apellido'];
+            $clUsuario     = $_POST['cl_usuario'];
+            $clContraseña  = $_POST['cl_contraseña'];
+            $clDireccion   = $_POST['cl_direccion'];
+            $clTelefono    = $_POST['cl_telefono'];
+            $clEmail       = $_POST['cl_email'];
+            $clTdoc        = $_POST['cl_tdoc'];
+            $clDocumento   = $_POST['cl_documento'];
+            $clEstado      = $_POST['cl_estado'];
+
+            $nuevoCl = new cliente();    
+            $nuevoCl->constructCliente($clNombre,$clApellido,$clUsuario,$clContraseña,$clDireccion,$clTelefono,$clEmail,$clTdoc,$clDocumento,$clEstado);
+            $nuevoCl->insertarCliente();
+            unset($nuevoCl);
+
+        }else{
+            echo("Debe completar los campos obligatorios");
+        }
+    }
+    if ($_POST['accion'] == 'obtenerid'){//------OBTENER ID-------
+        $_SESSION['id'] = $_POST['id'];
+        $_SESSION['tab'] = $_POST['tab'];
+      
+        if ($_POST['tab'] == 'usuarios'){
+            $_SESSION['col'] = 'idusuarios';
+        }else if ($_POST['tab'] == 'vehiculos'){
+            $_SESSION['col'] = 'idvehiculos';
+        }else if ($_POST['tab'] == 'clientes'){
+            $_SESSION['col'] = 'idclientes';
+        }
+        $linea = new generica();
+        $arrayMuestra = array($linea->obtenerDatos($linea->datosFiltrados($_POST['tab'],$_SESSION['col'],$_POST['id'],"","","")));
+        $_SESSION['arrayMuestra'] = $arrayMuestra[0];
+    }
+    if ($_POST['accion'] == 'modificarDato2'){
+        $modificar = new generica();
+        $modificar->modificarTabla($_SESSION['tab'],$_SESSION['col'], $_SESSION['id']);
+    }
+    if ($_POST['accion'] == 'eliminar'){//------ELIMINAR USUARIO-------
+        $eliminar = new generica();
+        $eliminar->ejecutarInstruccion($eliminar->eliminarDeTablas($_SESSION['tab'],$_SESSION['col'],$_SESSION['id']),"");
+    }
 }
-
-//-------------------LLAMADO A CLASES----------------------------
-
-/*
-$nuevo = new vehiculo();
-$nuevo->constructVehiculo('utilitario','dodge','ram','blanca','2020','6','disponible','2022-02-23','www.carlos.com','100');
-$nuevo->insertarVehiculo();
-
-$cl = new cliente();
-$cl->constructCliente('Fantino','Cartro','fanta01','xzczxc','sayago 1066','099652363','f@gmail.com','CI','58594891','activado');
-$cl->insertarCliente();
-
-$nuevo = new usuario();
-$nuevo->constructUsuario('Matiasss','Cartro','gato','123456789','matiascartro@gmail.com','CI','49132602','activado','administrador');
-$nuevo->insertarUsuario();*/
-
-function elimusu($uno,$dos){
-    $n = new generica();
-    $n->eliminarUsuario($uno,$dos);
-}
-//elimusu();
-
 ?>

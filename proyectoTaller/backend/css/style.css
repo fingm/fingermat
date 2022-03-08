@@ -13,9 +13,28 @@
 	font-size: inherit;
 }
 
-.celdasForma {
-  margin: 2px solid black;
-  width: 100px;
-  height: 100px;
+
+#textoFormularios{
+  font-size: 10px;
+  margin-left: 1px;
 }
 
+.marcar{
+  background-color: solid black;
+
+}
+
+.formEdicion{
+  text-align: center;
+
+}
+
+#formBedicion{
+ width:40px;
+ background-color: solid black;
+}
+
+#formBedicion2{
+  width:65px;
+
+}
