@@ -7,8 +7,6 @@
 
 static bool esVaciaCadena(TCadena cad);
 
-
-
 // los elementos se mantienen entre 0 y cantidad - 1, incluidos
 struct _rep_cadena {
   TInfo dato[L];
@@ -41,10 +39,17 @@ return false;
 }
 
 TCadena insertarAlInicio(nat natural, double real, TCadena cad) {
- if (esVaciaCadena(cad)){
+  if (esVaciaCadena(cad)){
+    cad->dato[0] = crearInfo(natural,real);
+    cad->longitud = 1;
+  }else{
     cad->longitud++;
+    for (int i = cad->longitud-1 ; i >= 0; i--){
+      cad->dato[i+1] = cad->dato[i];
+    }
+    cad->dato[0] = crearInfo(natural,real);
   }
-  return cad;
+      return cad;
 }
 
 
@@ -57,11 +62,10 @@ TCadena removerDeCadena(nat natural, TCadena cad) {
 }
 
 void imprimirCadena(TCadena cad){
-/*  if (!esVaciaCadena(cad)){
-    for (nat i = 0; i <= cantidadEnCadena(cad); i++){
-      printf("(%d,%4.2lf)",natInfo(cad->dato[i]),realInfo(cad->dato[i]));
-    }
-  }
-    printf("\n");*/
+
+      printf("(%d,%4.2lf)",natInfo(cad->dato),realInfo(cad->dato));
+   
+
+    printf("\n");
 }
  
