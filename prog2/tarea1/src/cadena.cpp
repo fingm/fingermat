@@ -5,11 +5,19 @@
 #include "../include/utils.h"
 #include <assert.h>
 
+static bool esVaciaCadena(TCadena cad);
+
+
+
 // los elementos se mantienen entre 0 y cantidad - 1, incluidos
 struct _rep_cadena {
-  TInfo dato;
+  TInfo dato[L];
   nat longitud;
 };
+
+bool esVaciaCadena(TCadena cad){
+  return cad->dato == 0;
+} 
 
 TCadena crearCadena() {
   TCadena nueva = new _rep_cadena;
@@ -23,7 +31,7 @@ void liberarCadena(TCadena cad) {
 */
 
 nat cantidadEnCadena(TCadena cad) {
-  if (cad != NULL){
+  if (!esVaciaCadena(cad)){
    return cad->longitud;
   } else return 0; 
 }
@@ -33,9 +41,9 @@ return false;
 }
 
 TCadena insertarAlInicio(nat natural, double real, TCadena cad) {
-  cad = crearCadena();
-  cad->longitud++;
-  cad->dato = crearInfo(natural,real);
+ if (esVaciaCadena(cad)){
+    cad->longitud++;
+  }
   return cad;
 }
 
@@ -49,11 +57,11 @@ TCadena removerDeCadena(nat natural, TCadena cad) {
 }
 
 void imprimirCadena(TCadena cad){
-  if (cad == NULL){
-    printf("\n");
-  }else{
-    char aux = infoATexto(copiaInfo(cad->dato))[0];
-    printf("%c\n",aux );
+/*  if (!esVaciaCadena(cad)){
+    for (nat i = 0; i <= cantidadEnCadena(cad); i++){
+      printf("(%d,%4.2lf)",natInfo(cad->dato[i]),realInfo(cad->dato[i]));
+    }
   }
+    printf("\n");*/
 }
  
