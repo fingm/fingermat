@@ -101,8 +101,9 @@ int main() {
     } else if (0 == strcmp(nom_comando, "cantidadColCadenas")) {
       nat pos = leerNat();
       assert((0 <= pos) && (pos < CANT_CADS));
-      printf("La cantidad en la cadena %u es %u.\n", pos, cantidadColCadenas(pos, colCads));
-      
+      printf("La cantidad en la cadena %u es %u.\n", pos,
+             cantidadColCadenas(pos, colCads));
+
     } else if (0 == strcmp(nom_comando, "estaEnColCadenas")) {
       nat natural = leerNat();
       nat pos = leerNat();
@@ -116,7 +117,7 @@ int main() {
       double real = leerDouble();
       nat pos = leerNat();
       assert((0 <= pos) && (pos < CANT_CADS));
-      assert(cantidadColCadenas(pos, colCads) < L); 
+      assert(cantidadColCadenas(pos, colCads) < L);
       colCads = insertarEnColCadenas(natural, real, pos, colCads);
       printf("Se insertó (%u,%4.2lf) en la cadena %u.\n", natural, real, pos);
 
@@ -138,7 +139,7 @@ int main() {
       printf("Se removió la primera aparición de %d de la cadena %d.\n",
              natural, pos);
 
-      /* en siguientes tareas     
+      /* en siguientes tareas
     } else if (0 == strcmp(nom_comando, "reiniciar")) {
       liberarCadena(cad);
       cad = crearCadena();
@@ -146,7 +147,7 @@ int main() {
       colCads = crearColCadenas();
       printf("Estructuras reiniciadas.\n");
       */
-      
+
     } else {
       printf("Comando no reconocido.\n");
     } // if
