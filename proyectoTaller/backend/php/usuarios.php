@@ -138,7 +138,7 @@
                   </div>
                 </div>
               </td>
-              </form>
+            </form>
               <td><!---------BOTON EDITAR ------------->
                 <div class = "row">
                 <div class="input-field col s12">
@@ -152,33 +152,51 @@
                 </div>
               </td>
             </tr>  
+          </table>
+    </div>
+  </div>
+</div>
+          
+<div class="container">
+  <div class="row">
+    <div class="col s12">          
+          <table>
+            <tr>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>Usuario</th>
+              <th>Email</th>
+              <th>T.Documento</th>
+              <th>Documento</th>
+              <th>Estado</th>
+              <th>Nivel</th>
+            </tr>
             <?php
               foreach($info as $i => $data){	
             ?>
-                <tr>
-                    <td><?=$data->names?></td>
-                    <td><?=$data->lastname?></td>
-                    <td><?=$data->username?></td>
-                    <td><?=$data->passwords?></td>      
-                    <td><?=$data->email?></td>
-                    <td><?=$data->dtype?></td>
-                    <td><?=$data->document?></td>
-                    <td><?=$data->cond?></td>
-                    <td><?=$data->acceslevel?></td>
-                    <th><!---------BOTON SELECCIONAR------------->
-                        <div>
-                          <form action="usuarios.php" method="POST">
-                            <button type="submit" id="<?=$data->idusuarios?>" class="btn-floating indigo darken-1 lighten-4 tooltipped"  onclick="marcar(this.id)" data-tooltip="click para seleccionar" >
-                                <i class="material-icons ">add_circle</i>
-                                <input type="hidden" name="accion" value="obtenerid" >
-                                <input type="hidden" name="id"  value="<?=$data->idusuarios?>"></a> 
-                                <input type="hidden" name="tab" value="usuarios" >
-                            </button>
-                          </form>
-                        </div>
-                    </th>
-                  </tr>
-               <?php }?>
+            <tr>
+              <td><?=$data->names?></td>
+              <td><?=$data->lastname?></td>
+              <td><?=$data->username?></td>
+              <td><?=$data->email?></td>
+              <td><?=$data->dtype?></td>
+              <td><?=$data->document?></td>
+              <td><?=$data->cond?></td>
+              <td><?=$data->acceslevel?></td>
+              <th><!---------BOTON SELECCIONAR------------->
+                  <div>
+                    <form action="usuarios.php" method="POST">
+                      <button type="submit" id="<?=$data->idusuarios?>" class="btn-floating indigo darken-1 lighten-4 tooltipped"  onclick="marcar(this.id)" data-tooltip="click para seleccionar" >
+                          <i class="material-icons ">add_circle</i>
+                          <input type="hidden" name="accion" value="obtenerid" >
+                          <input type="hidden" name="id"  value="<?=$data->idusuarios?>"></a> 
+                          <input type="hidden" name="tab" value="usuarios" >
+                      </button>
+                    </form>
+                  </div>
+              </th>
+            </tr>
+            <?php }?>
           </table>
       </div>
     </div>

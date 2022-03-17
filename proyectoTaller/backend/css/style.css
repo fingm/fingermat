@@ -36,5 +36,9 @@
 
 #formBedicion2{
   width:65px;
+}
 
+#mostrarListaVehiculos{
+  width:100px;
+  background-color: solid black;
 }

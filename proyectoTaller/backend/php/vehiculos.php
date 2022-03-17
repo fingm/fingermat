@@ -121,38 +121,6 @@
               <td>
                 <div class="row">
                   <div class="input-field col s12">
-                    <input type="text" name = "disponible" class="validate">
-                    <label id="textoFormularios" class="active">Disponible</label>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <div class="row">
-                  <div class="input-field col s12">
-                    <input type="text" name = "reservado" class="validate">
-                    <label id="textoFormularios" class="active">Reservado</label>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <div class="row">
-                  <div class="input-field col s12">
-                    <input type="text" name = "desde" class="validate">
-                    <label id="textoFormularios" class="active">Desde</label>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <div class="row">
-                  <div class="input-field col s12">
-                    <input type="text" name = "hasta" class="validate">
-                    <label id="textoFormularios" class="active">Hasta</label>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <div class="row">
-                  <div class="input-field col s12">
                     <input type="text" name = "foto" class="validate">
                     <label id="textoFormularios" class="active">Foto</label>
                   </div>
@@ -189,37 +157,59 @@
                 </div>
               </td>
             </tr>  
-            <?php
+        </table>      
+    <div>
+  <div>
+</div>
+  <div class="row col s12">
+    <div >     
+      <table> 
+            <tr>
+              <th>Tipo</th>
+              <th>Matricula</th>
+              <th>Marca</th>
+              <th>Modelo</th>
+              <th>Color</th>
+              <th>Año</th>
+              <th>pasajeros</th>
+              <th>Disp</th>
+              <th>Reservado</th>
+              <th>Desde</th>
+              <th>Hasta</th>
+              <th>Foto</th>
+              <th>Costo</th>
+            </tr>   
+              <?php
               foreach($info as $i => $data){	
             ?>
-                <tr>
-                    <td><?=$data->vtype?></td>
-                    <td><?=$data->vmatricula?></td>
-                    <td><?=$data->vbrand?></td>
-                    <td><?=$data->vmodel?></td>      
-                    <td><?=$data->vcolor?></td>
-                    <td><?=$data->vyear?></td>
-                    <td><?=$data->vpassengers?></td>
-                    <td><?=$data->vavailability?></td>
-                    <td><?=$data->vreserved?></td>
-                    <td><?=$data->vrequired?></td>
-                    <td><?=$data->vreturn?></td>
-                    <td><?=$data->vphoto?></td>
-                    <td><?=$data->vcost?></td>      
-                    <th><!---------BOTON SELECCIONAR------------->
-                        <div>
-                          <form action="vehiculos.php" method="POST">
-                            <button type="submit" id="<?=$data->idvehiculos?>" class="btn-floating indigo darken-1 lighten-4 tooltipped"  onclick="marcar(this.id)" data-tooltip="click para seleccionar" >
-                                <i class="material-icons ">add_circle</i>
-                                <input type="hidden" name="accion" value="obtenerid" >
-                                <input type="hidden" name="id"  value="<?=$data->idvehiculos?>"></a> 
-                                <input type="hidden" name="tab" value="vehiculos" >
-                            </button>
-                          </form>
-                        </div>
-                    </th>
-                  </tr>
-               <?php }?>
+            <tr>
+                <td><?=$data->vtype?></td>
+                <td><?=$data->vmatricula?></td>
+                <td><?=$data->vbrand?></td>
+                <td><?=$data->vmodel?></td>      
+                <td><?=$data->vcolor?></td>
+                <td><?=$data->vyear?></td>
+                <td><?=$data->vpassengers?></td>
+                <td><?=$data->vavailability?></td>
+                <td><?=$data->vreserved?></td>
+                <td><?=$data->vrequired?></td>
+                <td><?=$data->vreturn?></td>
+                <td><?=$data->vphoto?></td>
+                <td><?=$data->vcost?></td>      
+                <th><!---------BOTON SELECCIONAR------------->
+                    <div>
+                      <form action="vehiculos.php" method="POST">
+                        <button type="submit" id="<?=$data->idvehiculos?>" class="btn-floating indigo darken-1 lighten-4 tooltipped"  onclick="marcar(this.id)" data-tooltip="click para seleccionar" >
+                            <i class="material-icons ">add_circle</i>
+                            <input type="hidden" name="accion" value="obtenerid" >
+                            <input type="hidden" name="id"  value="<?=$data->idvehiculos?>"></a> 
+                            <input type="hidden" name="tab" value="vehiculos" >
+                        </button>
+                      </form>
+                    </div>
+                </th>
+              </tr>
+              <?php }?>
           </table>
       </div>
     </div>
@@ -228,13 +218,14 @@
   <div id="modal1" class="modal">
     <div class="modal-content row">
       <h5><center>MODIFICAR VEHICULO</center></h5>
-      <table class="row">
+      <table class="row s1">
         <tr>
           <th id="formBedicion">
             <div class="col s1">
               Tipo
             </div>
           </th>
+          <th></th>
           <th id="formBedicion">
             <div class="col s1">
               Mat
@@ -267,12 +258,12 @@
           </th>
           <th id="formBedicion">
             <div class=" col s1">
-                Disp.
+                Disp
             </div>
           </th>
           <th id="formBedicion">
             <div class=" col s1">
-             Reserv.
+             Reser
             </div>
           </th>
           <th id="formBedicion">
@@ -318,7 +309,7 @@
             </td>
             <td id="formBedicion">
               <div class="input-field  s12">
-                  <input id="formBedicion2"" type="password" name = "dato_4" class="validate">
+                  <input id="formBedicion2"" type="text" name = "dato_4" class="validate">
                   <label id="textoFormularios" class="active"><?=$_SESSION['arrayMuestra'][0]->vmodel?></label>
               </div>
             </td>

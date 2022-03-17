@@ -1,12 +1,6 @@
 <?php 
   include("main.php");
 
-  if (isset($_SESSION['nivel']) && $_SESSION['nivel'] == 'vendedor'){
-    header ('Location: '.'sinacceso.php');
-    $cerrar = new generica();
-    $cerrar->eliminarSesion();
-  }
-
   $mostrar =  new generica();
   $info = $mostrar->obtenerDatos($mostrar->datosFiltrados('clientes',"","","",""));
 
@@ -45,6 +39,11 @@
         <li><a href="clientes.php">clientes</a></li>
         <li><a href="vehiculos.php">vehiculos</a></li>
         <?php } ?>     
+        <?PHP  
+          if ($_SESSION['nivel'] == 'vendedor'){
+        ?>
+        <li><a href="clientes.php">clientes</a></li>
+        <?php } ?>    
       </ul>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
         <li style="width:40px;"><i class="Large material-icons">account_circle</i></li>
@@ -63,147 +62,166 @@
 <!----------------- SECCION DEL MEDIO---------------------->
 
 <div class="container">
-    <div class="row">
-      <div class="col s12">
-        <h5><center>INGRESO DE NUEVOS CLIENTES</center></h5>
-        <table>
-          <tr>        
-            <form action="clientes.php" method="POST">
-              <td>
-                <div class="row">
-                  <div class="input-field col s12">
-                    <input type="text" name = "cl_nombre" class="validate">
-                    <label id="textoFormularios" class="active">Nombre</label>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <div class="row">
-                  <div class="input-field col s12">
-                    <input type="text"  name = "cl_apellido" class="validate">
-                    <label id="textoFormularios" class="active" >Apellido</label>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <div class="row">
-                  <div class="input-field col s12">
-                    <input type="text" name = "cl_usuario" class="validate">
-                    <label id="textoFormularios" class="active">usuario</label>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <div class="row">
-                  <div class="input-field col s12">
-                    <input type="text" name = "cl_contraseña" class="validate">
-                    <label id="textoFormularios" class="active" >Contraseña</label>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <div class="row">
-                  <div class="input-field col s12">
-                    <input type="text" name = "cl_direccion" class="validate">
-                    <label id="textoFormularios" class="active">Direccion</label>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <div class="row">
-                  <div class="input-field col s12">
-                    <input type="text" name = "cl_telefono" class="validate">
-                    <label id="textoFormularios" class="active">Telefono</label>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <div class="row">
-                  <div class="input-field col s12">
-                    <input type="text" name = "cl_email" class="validate">
-                    <label id="textoFormularios" class="active" >Email</label>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <div class="row">
-                  <div class="input-field col s12">
-                    <input type="text" name = "cl_tdoc" class="validate">
-                    <label id="textoFormularios" class="active">T.doc</label>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <div class="row">
-                  <div class="input-field col s12">
-                    <input type="text" name = "cl_documento" class="validate">
-                    <label id="textoFormularios" class="active">Documento</label>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <div class="row">
-                  <div class="input-field col s12">
-                    <input type="text" name = "cl_estado" class="validate">
-                    <label id="textoFormularios" class="active">Estado</label>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <div class="row"><!---------BOTON INGRESAR------------->
-                  <div class="input-field col s12">
-                    <button class="waves-light indigo lighten-1 btn-floating pulse tooltipped " type="submit" name="accion" value="ingresarCliente"  data-tooltip="insertar Cliente">
-                      <i class="material-icons ">send</i>
-                    </button>
-                  </div>
-                </div>
-              </td>
-              </form>
-              <td><!---------BOTON EDITAR ------------->
-                <div class = "row">
+  <div class="row">
+    <div class="col s12">
+      <h5><center>INGRESO DE NUEVOS CLIENTES</center></h5>
+      <table>
+        <tr>        
+          <form action="clientes.php" method="POST">
+            <td>
+              <div class="row">
                 <div class="input-field col s12">
-                    <form action="#modal1" method="POST">
-                      <button type="submit" class="btn-floating pulse  green lighten-3 tooltipped" data-tooltip="editar Cliente seleccionado">
-                          <a class=" modal-trigger " href="#modal1">     
-                          <i class="material-icons ">edit</i>
-                      </button>
-                    </form>
-                  </div>
+                  <input type="text" name = "cl_nombre" class="validate">
+                  <label id="textoFormularios" class="active">Nombre</label>
                 </div>
-              </td>
-            </tr>  
-            <?php
-              foreach($info as $i => $data){	
-            ?>
-                <tr>
-                    <td><?=$data->names?></td>
-                    <td><?=$data->lastname?></td>
-                    <td><?=$data->username?></td>
-                    <td><?=$data->passwords?></td>      
-                    <td><?=$data->addres?></td>
-                    <td><?=$data->phone?></td> 
-                    <td><?=$data->email?></td>
-                    <td><?=$data->dtype?></td>
-                    <td><?=$data->document?></td>
-                    <td><?=$data->cond?></td>   
-                    <th><!---------BOTON SELECCIONAR------------->
-                        <div>
-                          <form action="clientes.php" method="POST">
-                            <button type="submit" id="<?=$data->idclientes?>" class="btn-floating indigo darken-1 lighten-4 tooltipped"  onclick="marcar(this.id)" data-tooltip="click para seleccionar" >
-                                <i class="material-icons ">add_circle</i>
-                                <input type="hidden" name="accion" value="obtenerid" >
-                                <input type="hidden" name="id"  value="<?=$data->idclientes?>"></a> 
-                                <input type="hidden" name="tab" value="clientes" >
-                            </button>
-                          </form>
-                        </div>
-                    </th>
-                  </tr>
-               <?php }?>
-          </table>
-      </div>
+              </div>
+            </td>
+            <td>
+              <div class="row">
+                <div class="input-field col s12">
+                  <input type="text"  name = "cl_apellido" class="validate">
+                  <label id="textoFormularios" class="active" >Apellido</label>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="row">
+                <div class="input-field col s12">
+                  <input type="text" name = "cl_usuario" class="validate">
+                  <label id="textoFormularios" class="active">usuario</label>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="row">
+                <div class="input-field col s12">
+                  <input type="text" name = "cl_contraseña" class="validate">
+                  <label id="textoFormularios" class="active" >Contraseña</label>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="row">
+                <div class="input-field col s12">
+                  <input type="text" name = "cl_direccion" class="validate">
+                  <label id="textoFormularios" class="active">Direccion</label>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="row">
+                <div class="input-field col s12">
+                  <input type="text" name = "cl_telefono" class="validate">
+                  <label id="textoFormularios" class="active">Telefono</label>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="row">
+                <div class="input-field col s12">
+                  <input type="text" name = "cl_email" class="validate">
+                  <label id="textoFormularios" class="active" >Email</label>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="row">
+                <div class="input-field col s12">
+                  <input type="text" name = "cl_tdoc" class="validate">
+                  <label id="textoFormularios" class="active">T.doc</label>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="row">
+                <div class="input-field col s12">
+                  <input type="text" name = "cl_documento" class="validate">
+                  <label id="textoFormularios" class="active">Documento</label>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="row">
+                <div class="input-field col s12">
+                  <input type="text" name = "cl_estado" class="validate">
+                  <label id="textoFormularios" class="active">Estado</label>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="row"><!---------BOTON INGRESAR------------->
+                <div class="input-field col s12">
+                  <button class="waves-light indigo lighten-1 btn-floating pulse tooltipped " type="submit" name="accion" value="ingresarCliente"  data-tooltip="insertar Cliente">
+                    <i class="material-icons ">send</i>
+                  </button>
+                </div>
+              </div>
+            </td>
+            </form>
+            <td><!---------BOTON EDITAR ------------->
+              <div class = "row">
+              <div class="input-field col s12">
+                  <form action="#modal1" method="POST">
+                    <button type="submit" class="btn-floating pulse  green lighten-3 tooltipped" data-tooltip="editar Cliente seleccionado">
+                        <a class=" modal-trigger " href="#modal1">     
+                        <i class="material-icons ">edit</i>
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </td>
+          </tr>
+      </table>
     </div>
   </div>
+</div>         
+
+<div class="container">
+  <div class="row">
+    <div class="col s12">
+      <table>
+        <tr>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Usuario</th>
+          <th>Direccion</th>
+          <th>Telefono</th>
+          <th>Email</th>
+          <th>T.Doc</th>
+          <th>Documento</th>
+          <th>Estado</th>
+        </tr>
+        <?php
+          foreach($info as $i => $data){	
+        ?>
+        <tr>
+          <td><?=$data->names?></td>
+          <td><?=$data->lastname?></td>
+          <td><?=$data->username?></td>
+          <td><?=$data->addres?></td>
+          <td><?=$data->phone?></td> 
+          <td><?=$data->email?></td>
+          <td><?=$data->dtype?></td>
+          <td><?=$data->document?></td>
+          <td><?=$data->cond?></td>   
+          <th><!---------BOTON SELECCIONAR------------->
+              <div>
+                <form action="clientes.php" method="POST">
+                  <button type="submit" id="<?=$data->idclientes?>" class="btn-floating indigo darken-1 lighten-4 tooltipped"  onclick="marcar(this.id)" data-tooltip="click para seleccionar" >
+                      <i class="material-icons ">add_circle</i>
+                      <input type="hidden" name="accion" value="obtenerid" >
+                      <input type="hidden" name="id"  value="<?=$data->idclientes?>"></a> 
+                      <input type="hidden" name="tab" value="clientes" >
+                  </button>
+                </form>
+              </div>
+          </th>
+        </tr>
+        <?php }?>
+      </table>
+    </div>
+  </div>
+</div>
   <!-- Modal Structure -->
   <div id="modal1" class="modal">
     <div class="modal-content row">
@@ -283,7 +301,7 @@
             </td>
             <td id="formBedicion">
               <div class="input-field  s12">
-                  <input id="formBedicion2"" type="password" name = "dato_4" class="validate">
+                  <input id="formBedicion2" type="password" name = "dato_4" class="validate">
                   <label id="textoFormularios" class="active"><?=$_SESSION['arrayMuestra'][0]->passwords?></label>
               </div>
             </td>

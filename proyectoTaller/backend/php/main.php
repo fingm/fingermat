@@ -55,8 +55,31 @@ class generica {
         }else{
             $this->resultado = "SELECT * FROM $tabla WHERE $columna1 = '$cond1' and $columna2 = '$cond2'";
         }
+
         return $this->resultado;
     }
+
+    public function oBtenerDatosFiltrados($cond1,$cond2,$cond3){
+        if ($cond1 == "" && $cond2 == "" && $cond3 == ""){
+            $this->resultado = "SELECT * FROM vehiculos";
+        }else if ($cond2 == "" && $cond3 == ""){
+            $this->resultado = "SELECT * FROM vehiculos WHERE vtype = '$cond1'";
+        }else if ($cond1 == "" && $cond3 == ""){
+            $this->resultado = "SELECT * FROM vehiculos WHERE vbrand = '$cond2'";
+        }else if ($cond1 == "" && $cond2 == ""){
+            $this->resultado = "SELECT * FROM vehiculos WHERE vcost <= '$cond3'";
+        }else if ($cond3 == ""){
+            $this->resultado = "SELECT * FROM vehiculos WHERE vtype = '$cond1' and vbrand = '$cond2'";
+        }else if ($cond2 == ""){
+            $this->resultado = "SELECT * FROM vehiculos WHERE vtype = '$cond1' and vcost <= '$cond3'";
+        }else if ($cond1 == ""){
+            $this->resultado = "SELECT * FROM vehiculos WHERE vbrand = '$cond2' and vcost <= '$cond3'";
+        }else if ($cond1 != "" && $cond2 != "" && $cond3 != ""){
+            $this->resultado = "SELECT * FROM vehiculos WHERE vtype = '$cond1' and vbrand = '$cond2' and vcost <= '$cond3'";
+        }
+        return $this->resultado;
+    }
+
     //------------ELIMINAR DE TABLAS------------
     public function eliminarDeTablas ($tabla,$campo,$idcampo){
         $this->sqlEliminarDeTablas = "DELETE FROM $tabla WHERE $campo = $idcampo";
@@ -75,8 +98,12 @@ class generica {
             $arrayDatos= array("vtype"=>$_POST['dato_1'],"vmatricula"=>$_POST['dato_2'],"vbrand"=>$_POST['dato_3'],"vmodel"=>$_POST['dato_4'],"vcolor"=>$_POST['dato_5'],"vyear"=>$_POST['dato_6'],"vpassengers"=>$_POST['dato_7'],"vavailability"=>$_POST['dato_8'],"vreserved"=>$_POST['dato_9'],"vrequired"=>$_POST['dato_10'],"vreturn"=>$_POST['dato_11'],"vphoto"=>$_POST['dato_12'],"vcost"=>$_POST['dato_13']);
          }else if ($tabla == 'clientes'){
             $arrayDatos= array("names"=>$_POST['dato_1'],"lastname"=>$_POST['dato_2'],"username"=>$_POST['dato_3'],"passwords"=>$_POST['dato_4'],"addres"=>$_POST['dato_5'],"phone"=>$_POST['dato_6'],"email"=>$_POST['dato_7'],"dtype"=>$_POST['dato_8'],"document"=>$_POST['dato_9'],"cond"=>$_POST['dato_10']);
-         }
-         
+         }else if ($tabla == 'alquilar'){
+            $arrayDatos= array("names"=>$_POST['dato_1'],"lastname"=>$_POST['dato_2'],"username"=>$_POST['dato_3'],"passwords"=>$_POST['dato_4'],"addres"=>$_POST['dato_5'],"phone"=>$_POST['dato_6'],"email"=>$_POST['dato_7'],"dtype"=>$_POST['dato_8'],"document"=>$_POST['dato_9'],"cond"=>$_POST['dato_10']);
+            $tabla = 'vehiculos';
+            $arrayDatos= array("vavailability"=>'no',"vreserved"=>'no',"vrequired"=>$_POST['desde'],"vreturn"=>$_POST['hasta']);   
+        }
+
         foreach($arrayDatos as $key => $datos){
             if (isset($key) && $datos != ""){ 
                 $this->sqlModificar = $this->modificarCampo($tabla,$key,$datos,$columna,$datoColumna);
@@ -334,8 +361,8 @@ if (isset($_POST['accion']) && $_POST['accion'] != ""){
     }
     if ($_POST['accion'] == 'ingresarVehiculo'){//------INGRESAR NUEVO VEHICULO-------
         if  (!empty($_POST['tipo']) && !empty($_POST['matricula']) && !empty($_POST['marca']) && !empty($_POST['modelo']) &&
-            !empty($_POST['color']) && !empty($_POST['año']) && !empty($_POST['pasajeros']) && !empty($_POST['disponible']) &&
-            !empty($_POST['reservado']) && !empty($_POST['foto']) && !empty($_POST['precio'])){
+            !empty($_POST['color']) && !empty($_POST['año']) && !empty($_POST['pasajeros'])
+             && !empty($_POST['foto']) && !empty($_POST['precio'])){
 
             $tipo       = $_POST['tipo'];     
             $matricula  = $_POST['matricula'];  
@@ -344,10 +371,10 @@ if (isset($_POST['accion']) && $_POST['accion'] != ""){
             $color      = $_POST['color'];  
             $año        = $_POST['año'];  
             $pasajeros  = $_POST['pasajeros'];  
-            $disponible = $_POST['disponible'];  
-            $reservado  = $_POST['reservado'];  
-            $desde      = $_POST['desde'];  
-            $hasta      = $_POST['hasta'];  
+            $disponible = "si";
+            $reservado  = "no";  
+            $desde      = NULL;  
+            $hasta      = NULL;  
             $foto       = $_POST['foto'];  
             $precio     = $_POST['precio'];             
 
@@ -355,8 +382,6 @@ if (isset($_POST['accion']) && $_POST['accion'] != ""){
             $nuevoVehiculo->constructVehiculo($tipo,$matricula,$marca,$modelo,$color,$año,$pasajeros,$disponible,$reservado,$desde,$hasta,$foto,$precio);
             $nuevoVehiculo->insertarVehiculo();
 
-        }else{
-            echo("Debe completar los campos obligatorios");
         }
     }
     if ($_POST['accion'] == 'ingresarUsuario'){//------INGRESAR NUEVO USUARIO-------
@@ -376,8 +401,6 @@ if (isset($_POST['accion']) && $_POST['accion'] != ""){
             $nuevoUsu->constructUsuario($usuNombre,$usuApellido,$usuUsuario,$usuContraseña,$usuEmail,$usuTdoc,$usuDocumento,$usuEstado,$usuNacceso);
             $nuevoUsu->insertarUsuario();
             unset ($nuevoUsu);
-        }else{
-            echo("Debe completar los campos CLIENTE");
         }
     }
     if ($_POST['accion'] == 'ingresarCliente'){//------INGRESAR NUEVO USUARIO-------
@@ -400,8 +423,6 @@ if (isset($_POST['accion']) && $_POST['accion'] != ""){
             $nuevoCl->insertarCliente();
             unset($nuevoCl);
 
-        }else{
-            echo("Debe completar los campos obligatorios");
         }
     }
     if ($_POST['accion'] == 'obtenerid'){//------OBTENER ID-------
@@ -426,6 +447,15 @@ if (isset($_POST['accion']) && $_POST['accion'] != ""){
     if ($_POST['accion'] == 'eliminar'){//------ELIMINAR USUARIO-------
         $eliminar = new generica();
         $eliminar->ejecutarInstruccion($eliminar->eliminarDeTablas($_SESSION['tab'],$_SESSION['col'],$_SESSION['id']),"");
+    }
+    if ($_POST['accion'] == 'mostrarFiltrado'){//------ELIMINAR USUARIO-------
+        $mostrar =  new generica();
+        $arrayMuestra = array($mostrar->obtenerDatos($mostrar->datosFiltrados('vehiculos','idvehiculos',$_POST['id'],"","","")));
+        $_SESSION['arrayMuestra'] = $arrayMuestra[0];
+    }
+    if ($_POST['accion'] == 'alquilarVehiculo'){
+        $alquilar = new generica();
+         $alquilar->modificarTabla('alquilar','idvehiculos', $_SESSION['id']);
     }
 }
 ?>
