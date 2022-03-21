@@ -1,0 +1,44 @@
+/* Custom Stylesheet */
+/**
+ * Use this file to override Materialize files so you can update
+ * the core Materialize files in the future
+ *
+ * Made By MaterializeCSS.com
+ */
+
+.icon-block {
+  padding: 0 15px;
+}
+.icon-block .material-icons {
+	font-size: inherit;
+}
+
+
+#textoFormularios{
+  font-size: 10px;
+  margin-left: 1px;
+  text-align: center;
+}
+
+.marcar{
+  background-color: solid black;
+
+}
+
+.formEdicion{
+  text-align: left;
+}
+
+#formBedicion{
+ width:40px;
+ background-color: solid black;
+}
+
+#formBedicion2{
+  width:65px;
+}
+
+#mostrarListaVehiculos{
+  width:100px;
+  background-color: solid black;
+}

@@ -1,0 +1,87 @@
+CREATE DATABASE autosUrRentACar;
+
+CREATE TABLE clientes(
+	idclientes INT NOT NULL AUTO_INCREMENT,
+	names VARCHAR(15),
+	lastname VARCHAR(15),
+	username VARCHAR(15),
+	passwords VARCHAR (40),
+	addres VARCHAR(50),
+	phone VARCHAR(20),
+	email VARCHAR(30),
+	dtype ENUM('CI','PASSPORT'),
+	document VARCHAR(15),
+	cond ENUM ('activado','desactivado'),
+	PRIMARY KEY (idclientes)
+);
+
+DELETE FROM clientes WHERE lastname = 'cartro';
+DELETE FROM vehiculos WHERE vbrand='dodge';
+
+INSERT INTO clientes (name,lastname,address,phone,email,dtype,document,cond)
+	VALUES('Matias','Cartro','Avenida Sayago 1066','099652363','matiascartro@gmail.com','CI','49132602','activado');
+	
+INSERT INTO clientes (name,lastname,address,phone,email,dtype,document,cond)
+	VALUES('Fantino','Cartro','Avenida Sayago 1066','099652363','fanitnocartro@gmail.com','CI','58594891','activado');
+
+
+
+CREATE TABLE vehiculos(
+	idvehiculos INT NOT NULL AUTO_INCREMENT ,
+	vtype VARCHAR(10),
+	vmatricula VARCHAR(20),
+	vbrand VARCHAR(10),
+	vmodel VARCHAR(10),
+	vcolor VARCHAR(10),
+	vyear VARCHAR(4),
+	vpassengers INT,
+	vavailability enum('si','no'),
+	vreserved enum('si','no'),
+	vrequired date,
+	vreturn date,
+	vphoto VARCHAR(50),
+	vcost INT,
+	PRIMARY KEY (idvehiculos)
+);
+
+DELETE FROM vehiculos WHERE vtype = 'utilitario';
+
+INSERT INTO vehiculos (vtype,vmatricula ,vbrand,vmodel,vcolor,vyear,vpassengers,vavailability,vreserved,vreturn,vphoto,vcost)
+	VALUES('sedan','stx asdasd','honda','civic','red','2000','5','si','si','2022-02-21','www.google.com','500');
+
+CREATE TABLE usuarios(
+	idusuarios INT NOT NULL AUTO_INCREMENT ,
+	names VARCHAR(15),
+	lastname VARCHAR(15),
+	username VARCHAR(15),
+	passwords VARCHAR(40),
+	email VARCHAR(30),
+	dtype ENUM('CI','PASSPORT'),
+	document VARCHAR(15),
+	cond ENUM ('activado','desactivado'),
+	acceslevel enum('administrador','encargado','vendedor'),
+	PRIMARY KEY (idusuarios)
+);
+
+UPDATE usuarios SET names='Matias', lastname='Cartro',username='admin',
+passwords='123456789',email='matiascartro@gmail.com',dtype='CI',document='49132602',cond='activado',acceslevel='administrador' WHERE idusuarios ='90';
+
+INSERT INTO usuarios (names,lastname,username,passwords,email,dtype,document,cond,acceslevel)
+	VALUES ('Matias','Cartro','admin','123456789','matiascartro@gmail.com','CI','49132602','activado','administrador');
+
+INSERT INTO usuarios (names,lastname,username,passwords,email,dtype,document,cond,acceslevel)
+	VALUES ('Fantino','Cartro','fanto','987654321','fantinocartro@gmail.com','CI','58594891','activado','administrador');
+
+DELETE FROM usuarios WHERE username ="admin";
+
+SELECT * FROM usuarios WHERE username = 'admoin' AND passwords = '123456789';
+
+
+
+
+
+
+
+
+
+
