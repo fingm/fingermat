@@ -63,15 +63,19 @@
     $arraySQL[]="INSERT INTO `usuarios` VALUES
         (1,'Matias','Cartro','mcartro','123456789','matiascartro@gmail.com','CI','49132602','activado','administrador'),
         (2,'Fantino','Cartro','fcartro','123456789','fantinocartro@gmail.com','CI','65412356','activado','vendedor'),
-        (3,'Luciano','Cartro','lcartro','123456789','lucianocartro@gmail.com','CI','545678912','activado','encargado');
+        (3,'Luciano','Cartro','lcartro','123456789','lucianocartro@gmail.com','CI','545678912','activado','encargado'),
+        (4,'Matias','Cartro','mcartro','123456789','matiascartro@gmail.com','CI','49132602','activado','administrador'),
+        (5,'Fantino','Cartro','fcartro','123456789','fantinocartro@gmail.com','CI','65412356','activado','vendedor'),
+        (6,'Matias','Cartro','mcartro','123456789','matiascartro@gmail.com','CI','49132602','activado','administrador'),
+        (7,'Fantino','Cartro','fcartro','123456789','fantinocartro@gmail.com','CI','65412356','activado','vendedor');
     ";
 
     $arraySQL[]="INSERT INTO `clientes` VALUES
         (1,'Steven','Tyler','styler','123456789','Avenida2015','099456987','styler@gmail','CI','491326451','activado'),
         (2,'Angus','Young','mrguitar','123456789','Battle 1245','099123741','ayoung@gmail','CI','45623217','activado'),
-        (3,'Steven','Tyler','styler','123456789','Avenida2015','099456987','styler@gmail','CI','491326451','activado'),
-        (4,'Angus','Young','mrguitar','123456789','Battle 1245','099123741','ayoung@gmail','CI','45623217','activado'),
-        (5,'Steven','Tyler','styler','123456789','Avenida2015','099456987','styler@gmail','CI','491326451','activado'),
+        (3,'Bob','Dylan','styler','123456789','Avenida2015','099456987','styler@gmail','CI','491326451','activado'),
+        (4,'Malcolm','Young','mrguitar','123456789','Battle 1245','099123741','ayoung@gmail','CI','45623217','activado'),
+        (5,'Nikki','Six','styler','123456789','Avenida2015','099456987','styler@gmail','CI','491326451','activado'),
         (6,'Angus','Young','mrguitar','123456789','Battle 1245','099123741','ayoung@gmail','CI','45623217','activado'),
         (7,'Steven','Tyler','styler','123456789','Avenida2015','099456987','styler@gmail','CI','491326451','activado'),
         (8,'Angus','Young','mrguitar','123456789','Battle 1245','099123741','ayoung@gmail','CI','45623217','activado'),
@@ -93,7 +97,13 @@
         (2,'sedan','aasd 8841','Chevrolet','prisma','azul','2018','5','si',NULL,NULL,'byd1.jpg','95'),
         (3,'utilitario','aas 4555','Jack','l123','blanco','2016','8','si',NULL,NULL,'renault1.jpg','250'),
         (4,'utilitario','smg 6517','Renault','s6547','gris','2015','10','si',NULL,NULL,'fiat1.jpg','220'),
-        (5,'utilitario','ass 4475','Scania','G440','blanco','2019','4','si',NULL,NULL,'bmw2.jpg','300');
+        (5,'utilitario','ass 4475','Scania','G440','blanco','2019','4','si',NULL,NULL,'bmw2.jpg','300'),
+        (6,'sedan','aasd 8841','Chevrolet','prisma','azul','2018','5','si',NULL,NULL,'byd1.jpg','95'),
+        (7,'utilitario','aas 4555','Jack','l123','blanco','2016','8','si',NULL,NULL,'renault1.jpg','250'),
+        (8,'utilitario','smg 6517','Renault','s6547','gris','2015','10','si',NULL,NULL,'fiat1.jpg','220'),
+        (9,'sedan','aasd 8841','Chevrolet','prisma','azul','2018','5','si',NULL,NULL,'byd1.jpg','95'),
+        (10,'utilitario','aas 4555','Jack','l123','blanco','2016','8','si',NULL,NULL,'renault1.jpg','250'),
+        (11,'utilitario','smg 6517','Renault','s6547','gris','2015','10','si',NULL,NULL,'fiat1.jpg','220');
     ";
 
     foreach ($arraySQL as $tabla){

@@ -1,10 +1,46 @@
 <?php 
 
   include("../../controladores/controlador.php");
-  
-  $mostrar =  new generica();
-  $info = $mostrar->obtenerDatos($mostrar->datosFiltrados('usuarios',"","","","","","","",""));
 
+  //--------------------paginacion-------------------------
+  $mostrar = new generica();
+  $pre = $mostrar->obtenerDatos($mostrar->datosFiltrados('usuarios',"","","","","",""));
+  $max = count($pre);
+  $min =0;
+  
+  if (isset($_GET['paginaUsuarios'])){
+
+    $pagina = $_GET['paginaUsuarios'];
+    if ($pagina == "" || $pagina <= 0){
+      $pagina = 0;
+      $antPagina= $pagina;
+    }else{
+      $antPagina = $pagina - 1;
+    }
+
+    $limPagina = $max / 6;
+
+    if($limPagina <= ($pagina + 1)){
+      $sigPagina = $pagina;
+    }else{
+      $sigPagina = $pagina + 1;		
+    }
+
+    $pagLim = $pagina;
+    $puntoSalida = $pagina * 5;
+
+  }else{
+    $pagina = 0;
+    $sigPagina = $pagina + 1;
+    $antPagina = $pagina;
+    $limPagina = $totalRegistros / 5;
+  }
+  if ($pagina ==0){
+    $actual = 0;
+  }else{
+    $actual = $pagina*6;
+  }
+  $info = $mostrar->obtenerDatos($mostrar->datosFiltradosPaginacion('usuarios',$actual,6));
 
   if (!isset($_SESSION['seguridad'])|| isset($_SESSION['nivel']) && $_SESSION['nivel'] != 'administrador'){
     header ('Location: '.'sinacceso.php');
@@ -201,6 +237,20 @@
               </th>
             </tr>
             <?php }?>
+            <tr><!------------------PAGINACION----------------------->
+              <td colspan="8" >
+                <ul class="pagination center">
+                  <li class="waves-effect">
+                    <a href="usuarios.php?paginaUsuarios=<?=$antPagina?>">
+                    <i class="material-icons">chevron_left</i></a>
+                  </li>
+                  <li class="waves-effect">
+                    <a href="usuarios.php?paginaUsuarios=<?=$sigPagina?>">
+                    <i class="material-icons">chevron_right</i></a>
+                  </li>
+                </ul>
+            </td>
+            </tr>
           </table>
       </div>
     </div>

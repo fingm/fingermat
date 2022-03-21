@@ -10,11 +10,47 @@
   if (isset($_SESSION['logeado']) && !$_SESSION['logeado']){
     header ('Location: '.$_SESSION['url']);
   }
+  //--------------------paginacion-------------------------
+  $mostrar = new generica();
+  $pre = $mostrar->obtenerDatos($mostrar->datosFiltrados('clientes',"","","","","",""));
+  $max = count($pre);
+  $min =0;
+  
+  if (isset($_GET['paginaAlquileres'])){
 
+    $pagina = $_GET['paginaAlquileres'];
+    if ($pagina == "" || $pagina <= 0){
+      $pagina = 0;
+      $antPagina= $pagina;
+    }else{
+      $antPagina = $pagina - 1;
+    }
+
+    $limPagina = $max / 4;
+
+    if($limPagina <= ($pagina + 1)){
+      $sigPagina = $pagina;
+    }else{
+      $sigPagina = $pagina + 1;		
+    }
+
+    $pagLim = $pagina;
+    $puntoSalida = $pagina * 5;
+
+  }else{
+    $pagina = 0;
+    $sigPagina = $pagina + 1;
+    $antPagina = $pagina;
+    $limPagina = $totalRegistros / 4;
+  }
+
+  if ($pagina ==0){
+    $actual = 0;
+  }else{
+    $actual = ($pagina*4);
+  }
   $mostrar =  new generica();
-  $info = $mostrar->obtenerDatos(($mostrar->oBtenerDatosFiltrados($_POST['tipo'],$_POST['marca'],$_POST['hasta'])));
-
-
+  $info = $mostrar->obtenerDatos(($mostrar->oBtenerDatosFiltrados($_POST['tipo'],$_POST['marca'],$_POST['hasta'],$actual,4)));
 ?>
 
 <!DOCTYPE html>
@@ -118,7 +154,7 @@
                 <div class = "row">
                 <div class="input-field col s12">
                     <form action="alquileres.php" method="POST">
-                     <a class="waves-effect waves-light btn modal-trigger btn-floating pulse tooltipped" data-tooltip="confirmar alquiler" href="#modal1"><i class="material-icons ">add_shopping_cart</i></a>
+                     <a class="waves-effect waves-light btn modal-trigger btn-floating pulse tooltipped" data-tooltip="alquilar o devolver" href="#modal1"><i class="material-icons ">add_shopping_cart</i></a>
                     </form>
                   </div>
                 </div>
@@ -181,6 +217,20 @@
             </th>
           </tr>
           <?php }?>
+          <tr><!------------------PAGINACION----------------------->
+              <td colspan="11" >
+                <ul class="pagination center">
+                  <li class="waves-effect">
+                    <a href="alquileres.php?paginaAlquileres=<?=$antPagina?>">
+                    <i class="material-icons">chevron_left</i></a>
+                  </li>
+                  <li class="waves-effect">
+                    <a href="alquileres.php?paginaAlquileres=<?=$sigPagina?>">
+                    <i class="material-icons">chevron_right</i></a>
+                  </li>
+                </ul>
+              </td>
+            </tr>
       </table>
     </div>
   </div>

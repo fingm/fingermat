@@ -7,24 +7,44 @@
     $cerrar->eliminarSesion();
   }
   //--------------------paginacion-------------------------
-  if (isset($_GET['pagina'])){
-    
-    $pagina = $_GET['pagina'];
-    if ($pagina =="" || $pagina < 0){
-      $pagina = 0;
-    }else{
-      $pagina = 0;
-      $sigPagina =  $pagina++;
-      $antPagina = $pagina--;
-    }
-  }
-
   $mostrar = new generica();
   $pre = $mostrar->obtenerDatos($mostrar->datosFiltrados('clientes',"","","","","",""));
   $max = count($pre);
   $min =0;
-  $info = $mostrar->obtenerDatos($mostrar->datosFiltrados('clientes',"","","","",$min,$max));
   
+  if (isset($_GET['paginaClientes'])){
+
+    $pagina = $_GET['paginaClientes'];
+    if ($pagina == "" || $pagina <= 0){
+      $pagina = 0;
+      $antPagina= $pagina;
+    }else{
+      $antPagina = $pagina - 1;
+    }
+
+    $limPagina = $max / 6;
+
+    if($limPagina <= ($pagina + 1)){
+      $sigPagina = $pagina;
+    }else{
+      $sigPagina = $pagina + 1;		
+    }
+
+    $pagLim = $pagina;
+    $puntoSalida = $pagina * 5;
+
+  }else{
+    $pagina = 0;
+    $sigPagina = $pagina + 1;
+    $antPagina = $pagina;
+    $limPagina = $totalRegistros / 5;
+  }
+  if ($pagina ==0){
+    $actual = 0;
+  }else{
+    $actual = ($pagina*5)+1;
+  }
+  $info = $mostrar->obtenerDatos($mostrar->datosFiltradosPaginacion('clientes',$actual,6));
 ?>
 
 <!DOCTYPE html>
@@ -239,19 +259,14 @@
       </tr>
       <?php }?>
       <tr><!------------------PAGINACION----------------------->
-        <td colspan="6" >
+        <td colspan="8" >
             <ul class="pagination center">
-              <li class="disabled">
-                <a href="clientes.php?pagina=<?=$antPagina?>">
+              <li class="waves-effect">
+                <a href="clientes.php?paginaClientes=<?=$antPagina?>">
                 <i class="material-icons">chevron_left</i></a>
               </li>
-              <li class="active"><a href="#!">1</a></li>
-              <li class="waves-effect"><a href="#!">2</a></li>
-              <li class="waves-effect"><a href="#!">3</a></li>
-              <li class="waves-effect"><a href="#!">4</a></li>
-              <li class="waves-effect"><a href="#!">5</a></li>
               <li class="waves-effect">
-                <a href="clientes.php?pagina=<?=$sigPagina?>">
+                <a href="clientes.php?paginaClientes=<?=$sigPagina?>">
                 <i class="material-icons">chevron_right</i></a>
               </li>
             </ul>

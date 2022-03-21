@@ -62,24 +62,29 @@ class generica {
         }
         return $this->resultado;
     }
+    //------------VERIFICAR DATOS LOGIN---------------------------------------
+    public function datosFiltradosPaginacion($tabla,$l1,$l2){
+              $this->resultado = "SELECT * FROM $tabla LIMIT $l1,$l2";
+        return $this->resultado;
+    }
     //--------------------BUSCADOR--------------------------------------------
-    public function oBtenerDatosFiltrados($cond1,$cond2,$cond3){
+    public function oBtenerDatosFiltrados($cond1,$cond2,$cond3,$l1,$l2){
         if ($cond1 == "" && $cond2 == "" && $cond3 == ""){
-            $this->resultado = "SELECT * FROM vehiculos";
+            $this->resultado = "SELECT * FROM vehiculos  LIMIT $l1,$l2";
         }else if ($cond2 == "" && $cond3 == ""){
-            $this->resultado = "SELECT * FROM vehiculos WHERE vtype = '$cond1'";
+            $this->resultado = "SELECT * FROM vehiculos WHERE vtype = '$cond1' LIMIT $l1,$l2";
         }else if ($cond1 == "" && $cond3 == ""){
-            $this->resultado = "SELECT * FROM vehiculos WHERE vbrand = '$cond2'";
+            $this->resultado = "SELECT * FROM vehiculos WHERE vbrand = '$cond2' LIMIT $l1,$l2";
         }else if ($cond1 == "" && $cond2 == ""){
-            $this->resultado = "SELECT * FROM vehiculos WHERE vcost <= '$cond3'";
+            $this->resultado = "SELECT * FROM vehiculos WHERE vcost <= '$cond3' LIMIT $l1,$l2";
         }else if ($cond3 == ""){
-            $this->resultado = "SELECT * FROM vehiculos WHERE vtype = '$cond1' and vbrand = '$cond2'";
+            $this->resultado = "SELECT * FROM vehiculos WHERE vtype = '$cond1' and vbrand = '$cond2' LIMIT $l1,$l2";
         }else if ($cond2 == ""){
-            $this->resultado = "SELECT * FROM vehiculos WHERE vtype = '$cond1' and vcost <= '$cond3'";
+            $this->resultado = "SELECT * FROM vehiculos WHERE vtype = '$cond1' and vcost <= '$cond3' LIMIT $l1,$l2";
         }else if ($cond1 == ""){
-            $this->resultado = "SELECT * FROM vehiculos WHERE vbrand = '$cond2' and vcost <= '$cond3'";
+            $this->resultado = "SELECT * FROM vehiculos WHERE vbrand = '$cond2' and vcost <= '$cond3' LIMIT $l1,$l2";
         }else if ($cond1 != "" && $cond2 != "" && $cond3 != ""){
-            $this->resultado = "SELECT * FROM vehiculos WHERE vtype = '$cond1' and vbrand = '$cond2' and vcost <= '$cond3'";
+            $this->resultado = "SELECT * FROM vehiculos WHERE vtype = '$cond1' and vbrand = '$cond2' and vcost <= '$cond3' LIMIT $l1,$l2";
         }
         return $this->resultado;
     }

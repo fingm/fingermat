@@ -7,8 +7,45 @@
     $cerrar->eliminarSesion();
   }
   
-  $mostrar =  new generica();
-  $info = $mostrar->obtenerDatos($mostrar->datosFiltrados('vehiculos',"","","","","","","",""));
+//--------------------paginacion-------------------------
+$mostrar = new generica();
+$pre = $mostrar->obtenerDatos($mostrar->datosFiltrados('vehiculos',"","","","","",""));
+$max = count($pre);
+
+if (isset($_GET['paginaVehiculos'])){
+
+  $pagina = $_GET['paginaVehiculos'];
+  if ($pagina == "" || $pagina <= 0){
+    $pagina = 0;
+    $antPagina= $pagina;
+  }else{
+    $antPagina = $pagina - 1;
+  }
+
+  $limPagina = $max / 4;
+
+  if($limPagina <= ($pagina + 1)){
+    $sigPagina = $pagina;
+  }else{
+    $sigPagina = $pagina + 1;		
+  }
+
+  $pagLim = $pagina;
+
+}else{
+  $pagina = 0;
+  $sigPagina = $pagina + 1;
+  $antPagina = $pagina;
+  $limPagina = $totalRegistros / 5;
+}
+
+if ($pagina == 0){
+  $actual = 0;
+}else{
+  $actual = ($pagina*5)-1;
+}
+
+$info = $mostrar->obtenerDatos($mostrar->datosFiltradosPaginacion('vehiculos',$actual,4));
 
 ?>
 
@@ -203,7 +240,6 @@
                 <td>
                   <img src="../../librerias/imagenes/<?=$data->vphoto?>"; width="160px">
                 </td>
- 
                 <th><!---------BOTON SELECCIONAR------------->
                     <div>
                       <form action="vehiculos.php" method="POST">
@@ -218,6 +254,20 @@
                 </th>
               </tr>
               <?php }?>
+              <tr><!------------------PAGINACION----------------------->
+                <td colspan="11" >
+                  <ul class="pagination center">
+                    <li class="waves-effect">
+                      <a href="vehiculos.php?paginaVehiculos=<?=$antPagina?>">
+                      <i class="material-icons">chevron_left</i></a>
+                    </li>
+                    <li class="waves-effect">
+                      <a href="vehiculos.php?paginaVehiculos=<?=$sigPagina?>">
+                      <i class="material-icons">chevron_right</i></a>
+                    </li>
+                  </ul>
+              </td>
+            </tr>
           </table>
       </div>
     </div>
