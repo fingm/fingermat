@@ -1,7 +1,16 @@
 <?php 
   include("main.php");
+
+  if (!isset($_SESSION['seguridad'])){
+    header ('Location: '.'sinacceso.php');
+    $cerrar = new generica();
+    $cerrar->eliminarSesion();
+  }
+  
   $mostrar =  new generica();
   $info = $mostrar->obtenerDatos($mostrar->datosFiltrados('vehiculos',"","","",""));
+
+
 
 ?>
 

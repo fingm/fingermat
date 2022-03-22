@@ -1,8 +1,11 @@
 <?php include("main.php");
+
+  
   $mostrar =  new generica();
   $info = $mostrar->obtenerDatos($mostrar->datosFiltrados('usuarios',"","","",""));
 
-  if (isset($_SESSION['nivel']) && $_SESSION['nivel'] != 'administrador'){
+
+  if (!isset($_SESSION['seguridad'])|| isset($_SESSION['nivel']) && $_SESSION['nivel'] != 'administrador'){
     header ('Location: '.'sinacceso.php');
     $cerrar = new generica();
     $cerrar->eliminarSesion();
@@ -224,11 +227,6 @@
           </th>
           <th>
             <div class="col s1">
-              Contraseña
-            </div>
-          </th>
-          <th>
-            <div class="col s1">
               Email
             </div>
           </th>
@@ -271,12 +269,6 @@
               <div class="input-field s12">
                   <input id="first_name2" type="text" name = "dato_3" class="validate">
                   <label id="textoFormularios" class="active" for="first_name2"><?=$_SESSION['arrayMuestra'][0]->username?></label>
-              </div>
-            </td>
-            <th>
-              <div class="input-field  s12">
-                  <input id="first_name2" type="password" name = "dato_4" class="validate">
-                  <label id="textoFormularios" class="active" for="first_name2"><?=$_SESSION['arrayMuestra'][0]->passwords?></label>
               </div>
             </td>
             <td>

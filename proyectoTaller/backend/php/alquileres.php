@@ -1,6 +1,12 @@
 <?php 
   include("main.php");
 
+  if (!isset($_SESSION['seguridad'])){
+    header ('Location: '.'sinacceso.php');
+    $cerrar = new generica();
+    $cerrar->eliminarSesion();
+  }
+
   if (isset($_SESSION['logeado']) && !$_SESSION['logeado']){
     header ('Location: '.$_SESSION['url']);
   }

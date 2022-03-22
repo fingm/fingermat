@@ -55,10 +55,9 @@ class generica {
         }else{
             $this->resultado = "SELECT * FROM $tabla WHERE $columna1 = '$cond1' and $columna2 = '$cond2'";
         }
-
         return $this->resultado;
     }
-
+    //------------------BUSCADOR------------
     public function oBtenerDatosFiltrados($cond1,$cond2,$cond3){
         if ($cond1 == "" && $cond2 == "" && $cond3 == ""){
             $this->resultado = "SELECT * FROM vehiculos";
@@ -97,9 +96,9 @@ class generica {
         }else if ($tabla == 'vehiculos'){
             $arrayDatos= array("vtype"=>$_POST['dato_1'],"vmatricula"=>$_POST['dato_2'],"vbrand"=>$_POST['dato_3'],"vmodel"=>$_POST['dato_4'],"vcolor"=>$_POST['dato_5'],"vyear"=>$_POST['dato_6'],"vpassengers"=>$_POST['dato_7'],"vavailability"=>$_POST['dato_8'],"vreserved"=>$_POST['dato_9'],"vrequired"=>$_POST['dato_10'],"vreturn"=>$_POST['dato_11'],"vphoto"=>$_POST['dato_12'],"vcost"=>$_POST['dato_13']);
          }else if ($tabla == 'clientes'){
-            $arrayDatos= array("names"=>$_POST['dato_1'],"lastname"=>$_POST['dato_2'],"username"=>$_POST['dato_3'],"passwords"=>$_POST['dato_4'],"addres"=>$_POST['dato_5'],"phone"=>$_POST['dato_6'],"email"=>$_POST['dato_7'],"dtype"=>$_POST['dato_8'],"document"=>$_POST['dato_9'],"cond"=>$_POST['dato_10']);
+            $arrayDatos= array("names"=>$_POST['dato_1'],"lastname"=>$_POST['dato_2'],"username"=>$_POST['dato_3'],"addres"=>$_POST['dato_5'],"phone"=>$_POST['dato_6'],"email"=>$_POST['dato_7'],"dtype"=>$_POST['dato_8'],"document"=>$_POST['dato_9'],"cond"=>$_POST['dato_10']);
          }else if ($tabla == 'alquilar'){
-            $arrayDatos= array("names"=>$_POST['dato_1'],"lastname"=>$_POST['dato_2'],"username"=>$_POST['dato_3'],"passwords"=>$_POST['dato_4'],"addres"=>$_POST['dato_5'],"phone"=>$_POST['dato_6'],"email"=>$_POST['dato_7'],"dtype"=>$_POST['dato_8'],"document"=>$_POST['dato_9'],"cond"=>$_POST['dato_10']);
+            $arrayDatos= array("names"=>$_POST['dato_1'],"lastname"=>$_POST['dato_2'],"username"=>$_POST['dato_3'],"addres"=>$_POST['dato_5'],"phone"=>$_POST['dato_6'],"email"=>$_POST['dato_7'],"dtype"=>$_POST['dato_8'],"document"=>$_POST['dato_9'],"cond"=>$_POST['dato_10']);
             $tabla = 'vehiculos';
             $arrayDatos= array("vavailability"=>'no',"vreserved"=>'no',"vrequired"=>$_POST['desde'],"vreturn"=>$_POST['hasta']);   
         }
@@ -258,7 +257,6 @@ class usuario {
             "cond"       => $this->uCond,
             "acceslevel" => $this->uAccesLevel
         ); 
-
         $this->ejecutar = new generica();
         $this->ejecutar->ejecutarInstruccion($this->sqlIngresarUsuario,$this->arrayUsuario);
     }
@@ -332,20 +330,22 @@ if (isset($_POST['accion']) && $_POST['accion'] != ""){
     //INGRESAR A PRINCIPAL PHP
     if($_POST['accion'] == 'ingresar'){
         if(!empty($_POST['usernameForma']) && !empty($_POST['passwordForma'])){
+        
             $username = $_POST['usernameForma'];
             $password = $_POST['passwordForma'];
             $login =  new generica();
             $estado = $login->obtenerDatos($login->datosFiltrados('usuarios','username',$username,'passwords',$password));
             @session_start();
+
             //----VERIFICO SI EXISTE EL USUARIO Y CONTRASEÑA
             if (empty($estado) ){
                 $_SESSION['usu'] = true;
-            $estado = $login->obtenerDatos($login->datosFiltrados('usuarios','username',$username,'passwords',$password));
+                $estado = $login->obtenerDatos($login->datosFiltrados('usuarios','username',$username,'passwords',$password));
             } else if ($estado[0]->cond == activado){
+                $_SESSION['seguridad'] = true;
                 $_SESSION['logeado'] = true;
                 $_SESSION['nivel']   = $estado[0]->acceslevel;
                 $_SESSION['url']     = 'backend/php/alquileres.php';
-                //-------MANTENGO LOS DATOS MIENTRAS SE TIENE ABIERTA LE SESION--------          
                 $_SESSION['username'] = $_POST['usernameForma'];
                 $_SESSION['password'] = $_POST['passwordForma'];   
             }else{
@@ -381,7 +381,6 @@ if (isset($_POST['accion']) && $_POST['accion'] != ""){
             $nuevoVehiculo = new vehiculo();    
             $nuevoVehiculo->constructVehiculo($tipo,$matricula,$marca,$modelo,$color,$año,$pasajeros,$disponible,$reservado,$desde,$hasta,$foto,$precio);
             $nuevoVehiculo->insertarVehiculo();
-
         }
     }
     if ($_POST['accion'] == 'ingresarUsuario'){//------INGRESAR NUEVO USUARIO-------
@@ -403,7 +402,7 @@ if (isset($_POST['accion']) && $_POST['accion'] != ""){
             unset ($nuevoUsu);
         }
     }
-    if ($_POST['accion'] == 'ingresarCliente'){//------INGRESAR NUEVO USUARIO-------
+    if ($_POST['accion'] == 'ingresarCliente'){//------INGRESAR NUEVO CLIENTE-------
         if  (!empty($_POST['cl_nombre']) && !empty($_POST['cl_apellido']) && !empty($_POST['cl_usuario']) && !empty($_POST['cl_contraseña']) &&
             !empty($_POST['cl_direccion']) && !empty($_POST['cl_telefono']) && !empty($_POST['cl_email']) && !empty($_POST['cl_tdoc']) &&
             !empty($_POST['cl_documento']) && !empty($_POST['cl_estado'])){
