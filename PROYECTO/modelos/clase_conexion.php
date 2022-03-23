@@ -3,12 +3,13 @@
 class conexion {
 
     public function conect(){
-        require_once("/var/www/html/fingermat/PROYECTO/configuracion/configuracion.php");
-        $host = 'localhost';
-        $usuario ='root';
-        $contraseña="Newton9.80";
-        $dbname = "autosUrRentACar";
+        include("/var/www/html/fingermat/PROYECTO/configuracion/configuracion.php");
+        
+        $host = $arrayConfigCr['MySQL']['host'];
+        $usuario =$arrayConfigCr['MySQL']['user'];
+        $contraseña=$arrayConfigCr['MySQL']['password'];
 
+        $dbname = $arrayConfigCr['MySQL']['dbName'];
         $this->con = new PDO("mysql:host=".$host.";dbname=".$dbname,$usuario,$contraseña); 
         $this->con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $this->con;

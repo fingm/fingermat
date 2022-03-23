@@ -1,9 +1,9 @@
 <?php
     
     require_once("clase_conexion.php");
-    include("clase_clientes.php");
-    include("clase_vehiculos.php");
-    include("clase_usuarios.php");
+    require_once("clase_clientes.php");
+    require_once("clase_vehiculos.php");
+    require_once("clase_usuarios.php");
 
 class generica {
     public function eliminarSesion (){
