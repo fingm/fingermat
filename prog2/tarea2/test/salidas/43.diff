@@ -1,0 +1,24 @@
+4c4
+< 4>(5,5.00)
+---
+> 4>
+6c6
+< 6>(6,6.00)(5,5.00)
+---
+> 6>
+8c8
+< 8>(6,6.00)(5,5.00)
+---
+> 8>
+14,15c14,15
+< 14>(4,4.00)(7,7.00)(8,8.00)(9,6.00)(6,6.00)(5,5.00)(3,3.00)
+< 15>(3,3.00)(4,4.00)(7,7.00)(8,8.00)(9,6.00)(6,6.00)(5,5.00)
+---
+> 14>(6,6.00)(3,3.00)
+> 15>
+16a17,21
+> ==141940== 200 (24 direct, 176 indirect) bytes in 1 blocks are definitely lost in loss record 3 of 3
+> ==141940==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+> ==141940==    by 0x10A08C: insertarAlInicio(unsigned int, double, _rep_cadena*) (cadena.cpp:92)
+> ==141940==    by 0x109846: main (principal.cpp:141)
+> ==141940== 

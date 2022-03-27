@@ -1,0 +1,37 @@
+0a1,15
+> ==141793== Invalid read of size 8
+> ==141793==    at 0x10A5DC: insertarEnColCadenas(unsigned int, double, unsigned int, _rep_colCadenas*) (colCadenas.cpp:37)
+> ==141793==    by 0x109BE9: main (principal.cpp:198)
+> ==141793==  Address 0x0 is not stack'd, malloc'd or (recently) free'd
+> ==141793== 
+> ==141793== 
+> ==141793== Process terminating with default action of signal 11 (SIGSEGV)
+> ==141793==  Access not within mapped region at address 0x0
+> ==141793==    at 0x10A5DC: insertarEnColCadenas(unsigned int, double, unsigned int, _rep_colCadenas*) (colCadenas.cpp:37)
+> ==141793==    by 0x109BE9: main (principal.cpp:198)
+> ==141793==  If you believe this happened as a result of a stack
+> ==141793==  overflow in your program's main thread (unlikely but
+> ==141793==  possible), you can try to increase the size of the
+> ==141793==  main thread stack using the --main-stacksize= flag.
+> ==141793==  The main thread stack size used in this run was 8388608.
+2,18c17,18
+< 2>Se insertó (3,3.00) en la cadena 0.
+< 3>Se insertó (3,13.10) en la cadena 0.
+< 4>Se insertó (3,13.10) en la cadena 9.
+< 5>Se insertó (3,13.10) en la cadena 5.
+< 6>Se insertó (8,8.00) en la cadena 0.
+< 7>Se insertó (9,9.00) en la cadena 0.
+< 8>Se insertó (5,5.00) en la cadena 5.
+< 9>Se insertó (6,6.00) en la cadena 5.
+< 10>Se insertó (7,7.00) en la cadena 5.
+< 11>Se insertó (4,4.00) en la cadena 9.
+< 12>La primera aparición de 3 en la cadena 0 es (3,13.10)
+< 13>La primera aparición de 3 en la cadena 5 es (3,13.10)
+< 14>La primera aparición de 3 en la cadena 9 es (3,13.10)
+< 15>La primera aparición de 9 en la cadena 0 es (9,9.00)
+< 16>La primera aparición de 6 en la cadena 5 es (6,6.00)
+< 17>La primera aparición de 4 en la cadena 9 es (4,4.00)
+< 18>Fin.
+---
+> 2>timeout: la orden monitorizada ha volcado un 'core'
+> Segmentation fault

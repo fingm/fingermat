@@ -1,0 +1,6 @@
+56a57,61
+> ==141726== 16 bytes in 1 blocks are definitely lost in loss record 1 of 1
+> ==141726==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+> ==141726==    by 0x10A0BB: insertarAlInicio(unsigned int, double, _rep_cadena*) (cadena.cpp:96)
+> ==141726==    by 0x109846: main (principal.cpp:141)
+> ==141726== 

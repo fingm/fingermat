@@ -1,0 +1,18 @@
+==141808== Invalid read of size 8
+==141808==    at 0x10A5DC: insertarEnColCadenas(unsigned int, double, unsigned int, _rep_colCadenas*) (colCadenas.cpp:37)
+==141808==    by 0x109BE9: main (principal.cpp:198)
+==141808==  Address 0x0 is not stack'd, malloc'd or (recently) free'd
+==141808== 
+==141808== 
+==141808== Process terminating with default action of signal 11 (SIGSEGV)
+==141808==  Access not within mapped region at address 0x0
+==141808==    at 0x10A5DC: insertarEnColCadenas(unsigned int, double, unsigned int, _rep_colCadenas*) (colCadenas.cpp:37)
+==141808==    by 0x109BE9: main (principal.cpp:198)
+==141808==  If you believe this happened as a result of a stack
+==141808==  overflow in your program's main thread (unlikely but
+==141808==  possible), you can try to increase the size of the
+==141808==  main thread stack using the --main-stacksize= flag.
+==141808==  The main thread stack size used in this run was 8388608.
+1>#  implementar removerDeColCadenas.
+2>timeout: la orden monitorizada ha volcado un 'core'
+Segmentation fault

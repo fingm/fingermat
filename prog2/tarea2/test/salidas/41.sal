@@ -1,0 +1,19 @@
+==141902== Invalid read of size 8
+==141902==    at 0x10A1E9: primeroEnCadena(_rep_cadena*) (cadena.cpp:126)
+==141902==    by 0x1098B1: main (principal.cpp:147)
+==141902==  Address 0x0 is not stack'd, malloc'd or (recently) free'd
+==141902== 
+==141902== 
+==141902== Process terminating with default action of signal 11 (SIGSEGV)
+==141902==  Access not within mapped region at address 0x0
+==141902==    at 0x10A1E9: primeroEnCadena(_rep_cadena*) (cadena.cpp:126)
+==141902==    by 0x1098B1: main (principal.cpp:147)
+==141902==  If you believe this happened as a result of a stack
+==141902==  overflow in your program's main thread (unlikely but
+==141902==  possible), you can try to increase the size of the
+==141902==  main thread stack using the --main-stacksize= flag.
+==141902==  The main thread stack size used in this run was 8388608.
+1>#  implementar insertarAlFinal.
+2>Se insertó (5,5.00) al final de la cadena.
+3>El primero es timeout: la orden monitorizada ha volcado un 'core'
+Segmentation fault

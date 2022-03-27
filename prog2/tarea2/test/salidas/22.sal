@@ -1,0 +1,18 @@
+==141778== Invalid read of size 8
+==141778==    at 0x10A57C: cantidadColCadenas(unsigned int, _rep_colCadenas*) (colCadenas.cpp:29)
+==141778==    by 0x109AD7: main (principal.cpp:183)
+==141778==  Address 0x0 is not stack'd, malloc'd or (recently) free'd
+==141778== 
+==141778== 
+==141778== Process terminating with default action of signal 11 (SIGSEGV)
+==141778==  Access not within mapped region at address 0x0
+==141778==    at 0x10A57C: cantidadColCadenas(unsigned int, _rep_colCadenas*) (colCadenas.cpp:29)
+==141778==    by 0x109AD7: main (principal.cpp:183)
+==141778==  If you believe this happened as a result of a stack
+==141778==  overflow in your program's main thread (unlikely but
+==141778==  possible), you can try to increase the size of the
+==141778==  main thread stack using the --main-stacksize= flag.
+==141778==  The main thread stack size used in this run was 8388608.
+1>#  implementar insertarEnColCadenas.
+2>timeout: la orden monitorizada ha volcado un 'core'
+Segmentation fault

@@ -12,7 +12,7 @@
   }
   //--------------------paginacion-------------------------
   $mostrar = new generica();
-  $pre = $mostrar->obtenerDatos($mostrar->datosFiltrados('clientes',"","","","","",""));
+  $pre = $mostrar->obtenerDatos($mostrar->datosFiltrados('vehiculos',"","","","","",""));
   $max = count($pre);
   $min =0;
   

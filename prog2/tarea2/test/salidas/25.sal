@@ -1,0 +1,20 @@
+==141832== Invalid read of size 8
+==141832==    at 0x10A5DC: insertarEnColCadenas(unsigned int, double, unsigned int, _rep_colCadenas*) (colCadenas.cpp:37)
+==141832==    by 0x109BE9: main (principal.cpp:198)
+==141832==  Address 0x18 is not stack'd, malloc'd or (recently) free'd
+==141832== 
+==141832== 
+==141832== Process terminating with default action of signal 11 (SIGSEGV)
+==141832==  Access not within mapped region at address 0x18
+==141832==    at 0x10A5DC: insertarEnColCadenas(unsigned int, double, unsigned int, _rep_colCadenas*) (colCadenas.cpp:37)
+==141832==    by 0x109BE9: main (principal.cpp:198)
+==141832==  If you believe this happened as a result of a stack
+==141832==  overflow in your program's main thread (unlikely but
+==141832==  possible), you can try to increase the size of the
+==141832==  main thread stack using the --main-stacksize= flag.
+==141832==  The main thread stack size used in this run was 8388608.
+1>#  implementar cadenaDeColCadenas.
+2>La cadena 0 es :
+3>La cadena 9 es :
+4>timeout: la orden monitorizada ha volcado un 'core'
+Segmentation fault

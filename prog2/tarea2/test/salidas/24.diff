@@ -1,0 +1,52 @@
+0a1,15
+> ==141808== Invalid read of size 8
+> ==141808==    at 0x10A5DC: insertarEnColCadenas(unsigned int, double, unsigned int, _rep_colCadenas*) (colCadenas.cpp:37)
+> ==141808==    by 0x109BE9: main (principal.cpp:198)
+> ==141808==  Address 0x0 is not stack'd, malloc'd or (recently) free'd
+> ==141808== 
+> ==141808== 
+> ==141808== Process terminating with default action of signal 11 (SIGSEGV)
+> ==141808==  Access not within mapped region at address 0x0
+> ==141808==    at 0x10A5DC: insertarEnColCadenas(unsigned int, double, unsigned int, _rep_colCadenas*) (colCadenas.cpp:37)
+> ==141808==    by 0x109BE9: main (principal.cpp:198)
+> ==141808==  If you believe this happened as a result of a stack
+> ==141808==  overflow in your program's main thread (unlikely but
+> ==141808==  possible), you can try to increase the size of the
+> ==141808==  main thread stack using the --main-stacksize= flag.
+> ==141808==  The main thread stack size used in this run was 8388608.
+2,33c17,18
+< 2>Se insertó (3,3.00) en la cadena 0.
+< 3>Se insertó (3,13.10) en la cadena 0.
+< 4>Se insertó (3,13.10) en la cadena 9.
+< 5>Se insertó (3,13.10) en la cadena 5.
+< 6>Se insertó (8,8.00) en la cadena 0.
+< 7>Se insertó (9,9.00) en la cadena 0.
+< 8>Se insertó (5,5.00) en la cadena 5.
+< 9>Se insertó (6,6.00) en la cadena 5.
+< 10>Se insertó (7,7.00) en la cadena 5.
+< 11>Se insertó (4,4.00) en la cadena 9.
+< 12>La cantidad en la cadena 0 es 4.
+< 13>La cantidad en la cadena 5 es 4.
+< 14>La cantidad en la cadena 9 es 2.
+< 15>La primera aparición de 3 en la cadena 0 es (3,13.10)
+< 16>Se removió la primera aparición de 3 de la cadena 0.
+< 17>3 está en la cadena 0.
+< 18>La primera aparición de 6 en la cadena 5 es (6,6.00)
+< 19>Se removió la primera aparición de 6 de la cadena 5.
+< 20>6 no está en la cadena 5.
+< 21>Se removió la primera aparición de 3 de la cadena 5.
+< 22>Se removió la primera aparición de 4 de la cadena 9.
+< 23>Se removió la primera aparición de 3 de la cadena 9.
+< 24>La cantidad en la cadena 0 es 3.
+< 25>La cantidad en la cadena 5 es 2.
+< 26>La cantidad en la cadena 9 es 0.
+< 27>Se insertó (3,3.00) en la cadena 0.
+< 28>La primera aparición de 3 en la cadena 0 es (3,3.00)
+< 29>La cantidad en la cadena 0 es 4.
+< 30>Se insertó (6,16.10) en la cadena 5.
+< 31>6 está en la cadena 5.
+< 32>La primera aparición de 6 en la cadena 5 es (6,16.10)
+< 33>Fin.
+---
+> 2>timeout: la orden monitorizada ha volcado un 'core'
+> Segmentation fault
