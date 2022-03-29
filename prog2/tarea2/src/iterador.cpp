@@ -2,32 +2,76 @@
 
 #include "../include/iterador.h"
 
+struct nodo {
+  nat info;
+  nodo *sig;
+};
+
+typedef nodo *NodoIter; 
 
 struct _rep_iterador {
-  nat info;
-  _rep_iterador *actual;
+  nodo *actual, *inicio, *fin;
 };
 
 TIterador crearIterador() {
-  return NULL;
+  TIterador res = new _rep_iterador;
+  res->actual = res->inicio = res->fin = NULL;
+  return res;
 }
 
 void liberarIterador(TIterador iter) {
+  iter->fin = NULL;
+  if (iter->inicio != iter->fin){
+    while (iter->inicio != iter->fin){
+      NodoIter borrar = iter->inicio;
+      iter->inicio = iter->inicio->sig;
+      delete borrar;
+    }
+  }
+  delete iter;
 }
 
 bool estaDefinidaActual(TIterador iter) {
-  return false;
+  bool aux = false;
+  if (iter->actual != NULL){
+    aux = true;
+  }
+  return aux;
 }
 
 void agregarAIterador(nat elem, TIterador const iter) {
+  if (iter->inicio == NULL){
+    NodoIter nuevo = new nodo;
+    nuevo->info = elem;
+    nuevo->sig = NULL;
+    iter->inicio = nuevo;
+    iter->fin = nuevo;
+  }else{
+    NodoIter nuevo = new nodo;
+    nuevo->info = elem;
+    nuevo->sig = NULL;
+    iter->fin->sig = nuevo;
+    iter->fin = iter->fin->sig;
+  }  
 }
 
 void reiniciarIterador(TIterador const iter) {
+  if (iter->inicio != NULL){
+  iter->actual = iter->inicio;
+  }
 }
 
+
 void avanzarIterador(TIterador const iter) {
+  if (estaDefinidaActual(iter)){
+    if (iter->actual->sig != NULL){
+      iter->actual = iter->actual->sig;
+    }else{
+      iter->actual = NULL;
+    }
+  }
 }
 
 nat actualEnIterador(TIterador iter) {
-  return 0;
+  return iter->actual->info;
 }

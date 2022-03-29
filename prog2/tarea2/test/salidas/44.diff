@@ -1,18 +1,41 @@
-4c4
+0a1,17
+> ==33270== Invalid read of size 4
+> ==33270==    at 0x10A9F2: actualEnIterador(_rep_iterador*) (iterador.cpp:76)
+> ==33270==    by 0x10ABDB: reversoDeIterador(_rep_iterador*) (aplicaciones.cpp:55)
+> ==33270==    by 0x10953D: main (principal.cpp:94)
+> ==33270==  Address 0x0 is not stack'd, malloc'd or (recently) free'd
+> ==33270== 
+> ==33270== 
+> ==33270== Process terminating with default action of signal 11 (SIGSEGV)
+> ==33270==  Access not within mapped region at address 0x0
+> ==33270==    at 0x10A9F2: actualEnIterador(_rep_iterador*) (iterador.cpp:76)
+> ==33270==    by 0x10ABDB: reversoDeIterador(_rep_iterador*) (aplicaciones.cpp:55)
+> ==33270==    by 0x10953D: main (principal.cpp:94)
+> ==33270==  If you believe this happened as a result of a stack
+> ==33270==  overflow in your program's main thread (unlikely but
+> ==33270==  possible), you can try to increase the size of the
+> ==33270==  main thread stack using the --main-stacksize= flag.
+> ==33270==  The main thread stack size used in this run was 8388608.
+2,20c19,20
+< 2>
+< 3>Agregando 1 a it.
 < 4>1 
----
-> 4>
-6c6
+< 5>Agregando 2 a it.
 < 6>2 1 
----
-> 6>
-14,15c14,15
+< 7>Estructuras reiniciadas.
+< 8>Agregando 1 a it.
+< 9>Agregando 2 a it.
+< 10>Agregando 3 a it.
+< 11>Agregando 4 a it.
+< 12>Agregando 5 a it.
+< 13>Agregando 6 a it.
 < 14>6 5 4 3 2 1 
 < 15>6 5 4 3 2 1 
----
-> 14>
-> 15>
-19c19
+< 16>Agregando 13 a it.
+< 17>Agregando 12 a it.
+< 18>Agregando 11 a it.
 < 19>11 12 13 6 5 4 3 2 1 
+< 20>Fin.
 ---
-> 19>
+> 2>timeout: la orden monitorizada ha volcado un 'core'
+> Segmentation fault

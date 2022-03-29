@@ -3,195 +3,185 @@
 #include "../include/cadena.h"
 #include <assert.h>
 
-struct nodo{
-  TInfo dato;
-  nodo *sig, *ant;
-};
-
-typedef nodo *TnodoCadena;
-
 struct _rep_cadena {
-  nodo *inicio;
-  nodo *final;
+  TInfo dato;
+  TCadena sig;
+  TCadena ant;
 };
 
 TCadena crearCadena() {
- return NULL;
+  return NULL;
 }
 
 void liberarCadena(TCadena cad) {
-//  printf("\n\nejecuto liberar\n\n");
-  assert (cad == NULL);
+// printf("\n\n SE EJECUTA LIBERARCADENA\n\n");
   if (cad != NULL){
-    if (cad->inicio == cad->final){
-      TnodoCadena borrar = cad->inicio;
-      liberarInfo(borrar->dato);
-      delete borrar;
-      cad->inicio = NULL;
-      cad->final = NULL;
+    if (cad->sig == NULL){
+      liberarInfo(cad->dato);
       delete cad;
     }else{
-      while (cad->inicio->sig != NULL){
-        TnodoCadena borrar = cad->inicio;
-        cad->inicio = cad->inicio->sig;
+      TCadena iter = cad->sig;
+      while (iter->dato != cad->dato){
+        TCadena borrar = iter;
+        iter = iter->sig;
         liberarInfo(borrar->dato);
         delete borrar;
-      } 
-       TnodoCadena borrar = cad->inicio;
-       liberarInfo(borrar->dato);
-       delete borrar;
-      cad->inicio = NULL;
-      cad->final = NULL;
-      delete cad;
+      }
+      liberarInfo(iter->dato);
+      delete iter;
     }
   }
 }
 
 nat cantidadEnCadena(TCadena cad) {
- //   printf("\n\nejecuto candidad\n\n");
+ // printf("\n\n SE EJECUTA CANTIDADENCADENA\n\n");
   nat contador = 0;
   if (cad != NULL){
-    contador++;
-    TnodoCadena iter = cad->inicio;
-    while (iter != cad->final){
+    if (cad->sig == NULL){
       contador++;
-      iter = iter->sig;
+    }else if (cad->sig != NULL){
+      TCadena iter = cad->sig;
+      contador++;
+      while(iter->dato != cad->dato){
+        iter = iter->sig;
+        contador++;
+      }
     }
-    iter = NULL;
   }
   return contador;
-  return 0 ;
 }
 
 bool estaEnCadena(nat natural, TCadena cad) {
- //   printf("\n\nejecuto esta en cadenan\n");
+ //printf("\n\n SE EJECUTA ESTAENCADENA\n\n");
   bool aux = false;
   if (cad != NULL){
-    TnodoCadena iter = cad->inicio;
-    if (natInfo(iter->dato) == natural){
+    if ( natInfo(cad->dato) ==  natural){
       aux = true;
-    }else{
-      while (iter != cad->final && !aux){
+    }else if (cad->ant != NULL && natInfo(cad->ant->dato) ==  natural){
+      aux = true;
+    }else if (cad->sig != NULL){
+      TCadena iter = cad->sig;
+      while (iter->dato != cad->dato &&  natInfo(iter->dato) !=  natural){
         iter = iter->sig;
-        if (natInfo(iter->dato) == natural){
-          aux = true;
-        }
       }
-      if (natInfo(iter->dato) == natural){
+      if (natInfo(iter->dato) ==  natural){
         aux = true;
       }
     }
-    iter = NULL;
   }
   return aux;
 }
 
 TCadena insertarAlInicio(nat natural, double real, TCadena cad) {
-  //  printf("\n\nejecuto insertar\n\n");
-
-  TnodoCadena nuevoNodo = new nodo;
-  nuevoNodo->dato = crearInfo(natural,real);
-
+ // printf("\n\n SE EJECUTA INSERTARENCADENA\n\n");
+  TCadena nodo = new _rep_cadena;
+  nodo->dato = crearInfo(natural,real);
   if (cad == NULL){
-    cad = new _rep_cadena;
-    cad->inicio = nuevoNodo;
-    cad->final = nuevoNodo;
-    nuevoNodo->sig= NULL;
-    nuevoNodo->ant= NULL;
+    cad = nodo;
+    cad->sig = NULL;
+    cad->ant = NULL;
   }else{
-
-    nuevoNodo->sig = cad->inicio;
-    cad->inicio->ant = nuevoNodo;
-    cad->inicio = nuevoNodo; 
+    if (cad->sig == NULL){
+      TCadena aux = cad;
+      cad = nodo;
+      aux->ant = nodo;
+      cad->sig = aux;
+      cad->ant = aux;
+      aux->sig = cad;
+      aux = NULL;
+    }else{
+      TCadena ini = cad;
+      TCadena fin = cad->ant;
+      cad = nodo;
+      cad->sig = ini;
+      ini->ant = cad;
+      cad->ant = fin;
+      fin->sig = cad;
+      ini= NULL;
+      fin = NULL;
+    }
   }
   return cad;
 }
 
 TInfo infoCadena(nat natural, TCadena cad) {
-  //  printf("\n\nejecuto infocadena\n\n");
-  assert (cad == NULL);
-  if (natInfo(cad->inicio->dato) == natural){
-    return cad->inicio->dato;
-  }else if (natInfo(cad->final->dato) == natural){
-    return cad->final->dato;
+ // printf("\n\n SE EJECUTA INFOCADENA\n\n");
+  if (natInfo(cad->dato) == natural){
+    return cad->dato;
   }else{
-    TnodoCadena iter = cad->inicio;
-    while (iter != cad->final && natInfo(iter->dato) != natural){
+    TCadena iter = cad->sig;
+    while(natInfo(iter->dato) != natural){
       iter = iter->sig;
     }return iter->dato;
   }
 }
 
 TInfo primeroEnCadena(TCadena cad) {
-  return cad->inicio->dato;
+ // printf("\n\n SE EJECUTA PRIMEROENCADENA\n\n");
+  return cad->dato;
 }
 
 TCadena cadenaSiguiente(TCadena cad) {
-  if (cad != NULL){
-      TCadena aux = cad;
-      aux->inicio->ant = aux->final;
-      aux->final->sig = aux->inicio;
-      aux->inicio = aux->inicio->ant;
-
-      aux->final = aux->final->sig;
-     
-      aux->inicio->ant = NULL;
-      aux->final->sig = NULL;
-    return aux;
-  }else{
-    return cad;
-  }
-
+ // printf("\n\n SE EJECUTACADENASIGUIENTE\n\n");
+  if (cad != NULL && cad->sig != NULL){
+    cad = cad->sig;
+  }  
+  return cad;
 }
 
 TCadena removerDeCadena(nat natural, TCadena cad) {
-//    printf("\n\nejecuto remover\n\n");
-  if (natInfo(cad->inicio->dato) == natural){
-      if (cad->inicio == cad->final){
-        TnodoCadena borrar = cad->inicio;
-        liberarInfo(borrar->dato);
-        delete borrar;
-        cad = NULL;
-      } else{
-        TnodoCadena borrar = cad->inicio;
-        cad->inicio = cad->inicio->sig;
-        liberarInfo(borrar->dato);
-        delete borrar;
-      }
+  if (cad->sig == NULL){
+    liberarCadena(cad);
+    cad = NULL;
   }else{
-    TnodoCadena iter = cad->inicio;
-    while (iter->sig != NULL && natInfo(iter->sig->dato) != natural){
-      iter = iter->sig;
-    }if (iter->sig == cad->final){
-      TnodoCadena borrar = iter->sig;
-      cad->final = iter;
-      iter->sig = NULL;
+    if (natInfo(cad->dato) == natural){
+      TCadena borrar = cad;
+      TCadena fin  = cad->ant;
+      cad = cad->sig;
+      cad->ant = cad->ant->ant;
+      fin->sig = fin->sig->sig;
       liberarInfo(borrar->dato);
       delete borrar;
+      fin = NULL;
+      borrar = NULL;
+    }else if (natInfo(cad->ant->dato) == natural){
+      TCadena borrar = cad->ant;
+      TCadena ant = cad->ant->ant;
+      ant->sig = ant->sig->sig;
+      cad->ant = cad->ant->ant;
+      liberarInfo(borrar->dato);
+      delete borrar;
+      ant = NULL;
     }else{
-      TnodoCadena borrar = iter->sig;
+      TCadena iter = cad;
+      while (natInfo(iter->sig->dato) != natural){
+        iter = iter->sig;
+      }
+      TCadena borrar = iter->sig;
+      TCadena sig = iter->sig->sig;
       iter->sig = iter->sig->sig;
+      sig->ant = sig->ant->ant;
       liberarInfo(borrar->dato);
       delete borrar;
       iter = NULL;
+      sig = NULL;
     }
   }
-  
+
   return cad;
 }
 
 void imprimirCadena(TCadena cad) {
-  //  printf("\n\nejecuto imprimir\n\n");
+ // printf("\n\n SE EJECUTA IMPRIMIRCADENA\n\n");
   if (cad != NULL){
-    TnodoCadena iter = cad->inicio;
-    printf("(%d,%.2f)",natInfo(iter->dato),realInfo(iter->dato));
-    if (iter != cad->final){
-      while (iter != cad->final){
-        iter = iter->sig;
-        printf("(%d,%.2f)",natInfo(iter->dato),realInfo(iter->dato));
+    printf("(%d,%.2f)",natInfo(cad->dato),realInfo(cad->dato));
+    if (cad->sig != NULL){
+      TCadena aux = cad->sig;
+      while (aux->dato != cad->dato){
+      printf("(%d,%.2f)",natInfo(aux->dato),realInfo(aux->dato));
+      aux = aux->sig;
       }
     }
-    iter = NULL;
   }
-  printf("\n");
+  printf("\n");  
 }

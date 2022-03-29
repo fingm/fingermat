@@ -1,18 +1,6 @@
-==141755== Invalid read of size 8
-==141755==    at 0x10A57C: cantidadColCadenas(unsigned int, _rep_colCadenas*) (colCadenas.cpp:29)
-==141755==    by 0x109AD7: main (principal.cpp:183)
-==141755==  Address 0x0 is not stack'd, malloc'd or (recently) free'd
-==141755== 
-==141755== 
-==141755== Process terminating with default action of signal 11 (SIGSEGV)
-==141755==  Access not within mapped region at address 0x0
-==141755==    at 0x10A57C: cantidadColCadenas(unsigned int, _rep_colCadenas*) (colCadenas.cpp:29)
-==141755==    by 0x109AD7: main (principal.cpp:183)
-==141755==  If you believe this happened as a result of a stack
-==141755==  overflow in your program's main thread (unlikely but
-==141755==  possible), you can try to increase the size of the
-==141755==  main thread stack using the --main-stacksize= flag.
-==141755==  The main thread stack size used in this run was 8388608.
 1>#  implementar _rep_colCadenas, crearColCadenas, liberarColCadenas, cantidadColCadenas, estaEnColCadenas.
-2>timeout: la orden monitorizada ha volcado un 'core'
-Segmentation fault
+2>La cantidad en la cadena 0 es 0.
+3>La cantidad en la cadena 9 es 0.
+4>5 no está en la cadena 0.
+5>5 no está en la cadena 9.
+6>Fin.
