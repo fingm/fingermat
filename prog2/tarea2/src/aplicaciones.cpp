@@ -3,6 +3,7 @@
 #include "../include/aplicaciones.h"
 #include "../include/cadena.h"
 #include "../include/iterador.h"
+#include <assert.h>
 
 //static TCadena iterAcadena (TIterador iter);
 
@@ -38,57 +39,40 @@ if(cad != NULL){
     return NULL;
   }
 }
-/*
-TCadena iterAcadena (TIterador iter){
-  reiniciarIterador(iter);
-  TCadena aux = crearCadena();
-  while (estaDefinidaActual(iter)){
-    aux = insertarAlInicio(actualEnIterador(iter),0, aux);
-    avanzarIterador(iter);
-  }
-  return aux;
-}*/
 
 TIterador reversoDeIterador(TIterador iter) {
+ 
+  reiniciarIterador(iter);
+  TIterador res = crearIterador();
+  nat contador = 0;
+  
+  while (estaDefinidaActual(iter)){
+    contador++;
+    agregarAIterador(actualEnIterador(iter),res);
+    avanzarIterador(iter);
+  }
+
+  return res;
+}
+
+/* ESTE CODIGO FUNCIONA
+TIterador reversoDeIterador(TIterador iter) {
+  TIterador res = crearIterador();
   if (!estaDefinidaActual(iter)){
     reiniciarIterador(iter);
-    nat aux = actualEnIterador(iter);
-  
-    nat aux3 = natInfo(copiaInfo(aux));
-    printf("\ns%d\n",aux3);
-    
-    //TIterador i = crearIterador();
-      
-  }else{
-    avanzarIterador(iter);
-    reversoDeIterador(iter);
   }
-
-  return crearIterador();
+  if (estaDefinidaActual(iter)){
+    reversoRecursivo(iter,res);
+  }
+  return res;
 }
-/*
-TIterador reversoDeIterador(TIterador iter) {
-  reiniciarIterador(iter);
 
 
-  TCadena aux = iterAcadena(iter);
-  TIterador i = crearIterador();
-  
-  TCadena uno = copiaCadena(aux);
-  aux = uno;
-  TCadena it = uno;
-  
-  nat s = natInfo(primeroEnCadena(uno));
-  printf("%d",s);
+void reversoRecursivo(TIterador entrada, TIterador salida){
+    if (estaDefinidaActual(entrada)){
+     agregarAIterador(actualEnIterador(entrada),salida);
+     avanzarIterador(entrada); 
+     reversoRecursivo(entrada,salida);
+    }
 
-  agregarAIterador(0,i);
-  it = cadenaSiguiente(it);
-  nat contador = 1;
-  while (it != aux){
-    agregarAIterador(contador,i);
-    contador++;
-    it = cadenaSiguiente(it);
-  }
-  liberarCadena(aux);
-
-  return i;*/
+}*/

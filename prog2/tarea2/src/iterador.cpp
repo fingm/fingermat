@@ -4,7 +4,7 @@
 
 struct nodo {
   nat info;
-  nodo *sig;
+  nodo *sig,*ant;
 };
 
 typedef nodo *NodoIter; 
@@ -51,6 +51,7 @@ void agregarAIterador(nat elem, TIterador const iter) {
     nuevo->info = elem;
     nuevo->sig = NULL;
     iter->fin->sig = nuevo;
+    nuevo->ant = iter->fin;
     iter->fin = iter->fin->sig;
   }  
 }
