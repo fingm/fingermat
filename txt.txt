@@ -1,4 +1,5 @@
 CREATE DATABASE autosUrRentACar;
+//
 
 CREATE TABLE clientes(
 	idclientes INT NOT NULL AUTO_INCREMENT,
